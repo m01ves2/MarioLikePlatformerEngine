@@ -9,7 +9,9 @@ namespace MarioLikePlatformerEngine.Core
     class TestEntity : Entity
     {
         private Texture2D _whitePixel;
-        private float _speed = 800f;
+        private float _acceleration = 800f;
+        private float _speed = 5f;
+        private float _jump_speed = 1000;
 
         public TestEntity(Vector2 position) : base(position) { }
         public override void Load(GameResources resources)
@@ -21,28 +23,36 @@ namespace MarioLikePlatformerEngine.Core
         {
             //Position.X += 50 * dt;
             HandleMovement(dt);
+            Velocity.Y += _acceleration * dt;
+            Position += Velocity * dt;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             // просто рисуем прямоугольник/текстуру
-            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, 100, 100), Color.White);
+            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, 20, 20), Color.White);
         }
 
 
         public void HandleMovement(float dt)
         {
             if (Input.IsKeyDown(Keys.Left)) {
-                Position.X -= _speed * dt;
+                Velocity.X += -_speed;
+                //Position.X -= _acceleration * dt;
             }
             if (Input.IsKeyDown(Keys.Right)) {
-                Position.X += _speed * dt;
+                Velocity.X += _speed;
+                //Position.X += _acceleration * dt;
             }
             if (Input.IsKeyDown(Keys.Up)) {
-                Position.Y -= _speed * dt;
+                //Position.Y -= _acceleration * dt;
             }
             if (Input.IsKeyDown(Keys.Down)) {
-                Position.Y += _speed * dt;
+                //Position.Y += _acceleration * dt;
+            }
+
+            if (Input.IsKeyPressed(Keys.Space)) {
+                Velocity.Y -= _jump_speed;
             }
         }
     }

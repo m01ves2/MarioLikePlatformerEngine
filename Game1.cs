@@ -12,6 +12,10 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private Texture2D _whitePixel; //pixel — это инструмент рисования, создаётся в Game1 с помощью GraphicsDevice. используем для рисования частиц
 
+    private int _screenWidth = 800;
+    private int _screenHeight = 600;
+
+
     private SceneManager _sceneManager;
 
     public Game1()
@@ -19,6 +23,11 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+
+        _graphics.PreferredBackBufferWidth = _screenWidth;
+        _graphics.PreferredBackBufferHeight = _screenHeight;
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()

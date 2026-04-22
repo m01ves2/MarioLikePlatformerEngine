@@ -6,7 +6,9 @@ namespace MarioLikePlatformerEngine.Core
 {
     public class Entity
     {
-        public Vector2 Position;
+        protected Vector2 Position;
+        protected Vector2 Velocity;
+
         public bool IsPendingDestroy = false;
 
         public Entity(Vector2 position) { 
