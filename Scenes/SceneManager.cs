@@ -5,11 +5,19 @@ namespace MarioLikePlatformerEngine.Scenes
     public class SceneManager
     {
         private Scene _current;
+        private GameResources _resources;
 
-        public void SetScene(Scene scene, GameResources resources)
+        public SceneManager(GameResources resources)
+        {
+            _resources = resources;
+        }
+
+        public void SetScene(Scene scene)
         {
             _current = scene;
-            _current?.Load(resources);
+
+            _current?.Load(_resources);
+            _current.Initialize();
         }
 
         public void Update(float dt)

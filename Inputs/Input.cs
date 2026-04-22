@@ -18,7 +18,7 @@ namespace MarioLikePlatformerEngine.Inputs
             return Current.IsKeyDown(key);
         }
 
-        public static bool IsKeyPress(Keys key)
+        public static bool IsKeyPressed(Keys key)
         {
             return Current.IsKeyDown(key) && Previous.IsKeyUp(key);
         }

@@ -19,8 +19,6 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-
-        _sceneManager = new SceneManager();
     }
 
     protected override void Initialize()
@@ -35,9 +33,17 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
-        _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-        _whitePixel.SetData(new[] { Color.White });
-        _sceneManager.SetScene(new TestScene(), new GameResources() { WhitePixel = _whitePixel});
+
+        var whitePixel = new Texture2D(GraphicsDevice, 1, 1);
+        whitePixel.SetData(new[] { Color.White });
+
+        var resources = new GameResources
+        {
+            WhitePixel = whitePixel
+        };
+
+        _sceneManager = new SceneManager(resources);
+        _sceneManager.SetScene(new TestScene());
     }
 
     protected override void Update(GameTime gameTime)
