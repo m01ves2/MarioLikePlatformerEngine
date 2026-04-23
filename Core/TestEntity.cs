@@ -6,14 +6,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MarioLikePlatformerEngine.Core
 {
-    class TestEntity : Entity
+    public class TestEntity : Entity
     {
         private Texture2D _whitePixel;
         private float _acceleration = 800f;
         private float _speed = 5f;
         private float _jump_speed = 1000;
 
-        public TestEntity(Vector2 position) : base(position) { }
+        private int _width;
+        private int _height;
+
+        public TestEntity(Vector2 position, int width, int height) : base(position)
+        {
+            _width = width;
+            _height = height;
+        }
         public override void Load(GameResources resources)
         {
             _whitePixel = resources.WhitePixel;
@@ -30,7 +37,7 @@ namespace MarioLikePlatformerEngine.Core
         public override void Draw(SpriteBatch spriteBatch)
         {
             // просто рисуем прямоугольник/текстуру
-            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, 20, 20), Color.White);
+            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, _width, _height), Color.White);
         }
 
 
@@ -54,6 +61,13 @@ namespace MarioLikePlatformerEngine.Core
             if (Input.IsKeyPressed(Keys.Space)) {
                 Velocity.Y -= _jump_speed;
             }
+        }
+
+        public void ResolveGroundCollision(GroundEntity groundEntity)
+        {
+            var groundRect = groundEntity.Bounds;
+            Position.Y = groundRect.Y - _height;
+            Velocity.Y = 0;
         }
     }
 }

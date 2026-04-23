@@ -9,6 +9,9 @@ namespace MarioLikePlatformerEngine.Core
         protected Vector2 Position;
         protected Vector2 Velocity;
 
+        //public Rectangle Bounds => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+        public virtual Rectangle Bounds => Rectangle.Empty;
+
         public bool IsPendingDestroy = false;
 
         public Entity(Vector2 position) { 
