@@ -8,14 +8,14 @@ namespace MarioLikePlatformerEngine.Core
 {
     public class GroundEntity : Entity
     {
-        private int _width;
-        private int _height;
+        //private int _width;
+        //private int _height;
         private Texture2D _whitePixel;
 
-        public GroundEntity(Vector2 position, int width, int height) : base(position)
+        public GroundEntity(Vector2 position, int width, int height) : base(position, width, height, EntityTag.Ground)
         {
-            _width = width;
-            _height = height;
+            //_width = width;
+            //_height = height;
         }
 
         public override void Load(GameResources resources)
@@ -29,7 +29,7 @@ namespace MarioLikePlatformerEngine.Core
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, _width, _height), Color.Brown);
+            spriteBatch.Draw(_whitePixel, new Rectangle((int)Position.X, (int)Position.Y, Width, Height), Color.Brown);
         }
 
     }

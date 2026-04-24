@@ -52,7 +52,7 @@ public class Game1 : Game
         };
 
         _sceneManager = new SceneManager(resources);
-        _sceneManager.SetScene(new TestScene());
+        _sceneManager.SetScene(new GameScene());
     }
 
     protected override void Update(GameTime gameTime)
