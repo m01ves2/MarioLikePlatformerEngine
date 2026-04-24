@@ -46,6 +46,8 @@ namespace MarioLikePlatformerEngine.Systems.Physics
 
         void ResolveCollisions(Entity e, List<Entity> entities, Axis axis, List<CollisionEvent> events)
         {
+            bool resolved = false;
+
             foreach (var other in entities) {
                 if (other == e) continue;
                 if (!e.Bounds.Intersects(other.Bounds)) continue;
@@ -65,6 +67,9 @@ namespace MarioLikePlatformerEngine.Systems.Physics
                     case Axis.X:
                         if (side == CollisionSide.Left || side == CollisionSide.Right)
                             ResolveX(e, other, side);
+
+                        //if (!e.Bounds.Intersects(other.Bounds))
+                        //    continue;
                         break;
 
                     case Axis.Y:

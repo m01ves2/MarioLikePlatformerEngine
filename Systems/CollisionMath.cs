@@ -15,25 +15,25 @@ namespace MarioLikePlatformerEngine.Systems
 
         public static CollisionSide DetectSide(Rectangle a, Rectangle b)
         {
-            float penetrationFromLeft = a.Right - b.Left;
-            float penetrationFromRight = b.Right - a.Left;
+            float penetrationFromRight = a.Right - b.Left;
+            float penetrationFromLeft = b.Right - a.Left;
             float penetrationFromTop = a.Bottom - b.Top;
             float penetrationFromBottom = b.Bottom - a.Top;
 
             float min = penetrationFromLeft;
-            CollisionSide collisionSide = CollisionSide.Right;
+            CollisionSide collisionSide = CollisionSide.Right; // A пришёл справа
 
             if (penetrationFromRight < min) {
                 min = penetrationFromRight;
-                collisionSide = CollisionSide.Left;
+                collisionSide = CollisionSide.Left; // A пришёл слева
             }
 
             if (penetrationFromTop < min) {
                 min = penetrationFromTop;
-                collisionSide = CollisionSide.Bottom;
+                collisionSide = CollisionSide.Bottom; // A пришёл сверху
             }
 
-            if (penetrationFromBottom < min) {
+            if (penetrationFromBottom < min) { // A пришёл снизу
                 min = penetrationFromBottom;
                 collisionSide = CollisionSide.Top;
             }
