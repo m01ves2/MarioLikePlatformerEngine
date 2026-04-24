@@ -20,30 +20,29 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
                 case CollisionSide.Bottom:
                     //// стоим на земле
                     //player.Velocity.Y = 0;
-                    ////player.IsGrounded = true;
                     //player.Position.Y = ground.Bounds.Top - player.Height;
-                    e.A.IsGrounded = true;
+                    e.A.Contacts.IsGrounded = true;
                     break;
 
                 case CollisionSide.Top:
                     //// удар головой
                     //player.Velocity.Y = 0;
                     //player.Position.Y = ground.Bounds.Bottom;
-                    e.A.HitCeiling = true;
+                    e.A.Contacts.HitCeiling = true;
                     break;
 
                 case CollisionSide.Left:
                     //// упёрлись справа в стену
                     //player.Velocity.X = 0;
                     //player.Position.X = ground.Bounds.Right;
-                    e.A.IsTouchingWallLeft = true;
+                    e.A.Contacts.IsTouchingWallLeft = true;
                     break;
 
                 case CollisionSide.Right:
                     //// упёрлись слева
                     //player.Velocity.X = 0;
                     //player.Position.X = ground.Bounds.Left - player.Width;
-                    e.A.IsTouchingWallRight = true;
+                    e.A.Contacts.IsTouchingWallRight = true;
                     break;
             }
         }

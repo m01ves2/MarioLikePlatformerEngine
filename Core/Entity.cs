@@ -1,4 +1,5 @@
-﻿using MarioLikePlatformerEngine.Scenes;
+﻿using MarioLikePlatformerEngine.Core.Components;
+using MarioLikePlatformerEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,15 +19,10 @@ namespace MarioLikePlatformerEngine.Core
         public int Width;
         public int Height;
         public Rectangle Bounds => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
-        //public virtual Rectangle Bounds => Rectangle.Empty;
         public EntityTag Tag { get; private set; }
 
         public bool IsPendingDestroy = false;
-
-        public bool IsGrounded;
-        public bool IsTouchingWallLeft;
-        public bool IsTouchingWallRight;
-        public bool HitCeiling;
+        public ContactState Contacts { get; } = new ContactState();
 
         public Entity(Vector2 position, int width, int height,  EntityTag tag) { 
             Position = position;

@@ -14,6 +14,15 @@ namespace MarioLikePlatformerEngine.Systems.Physics
     {
         public void Step(List<Entity> entities, float dt, List<CollisionEvent> events)
         {
+            // 1. reset
+            foreach (var e in entities) {
+                e.Contacts.IsGrounded = false;
+                e.Contacts.IsTouchingWallLeft = false;
+                e.Contacts.IsTouchingWallRight = false;
+                e.Contacts.HitCeiling = false;
+            }
+
+            // 2. movement
             foreach (var e in entities)
                 MoveX(e, entities, dt, events);
 
@@ -71,10 +80,12 @@ namespace MarioLikePlatformerEngine.Systems.Physics
             if (side == CollisionSide.Left) {
                 e.Position.X = other.Bounds.Left - e.Width;
                 e.Velocity.X = 0;
+                e.Contacts.IsTouchingWallLeft = true;
             }
             else if (side == CollisionSide.Right) {
                 e.Position.X = other.Bounds.Right;
                 e.Velocity.X = 0;
+                e.Contacts.IsTouchingWallRight = true;
             }
         }
 
@@ -83,10 +94,12 @@ namespace MarioLikePlatformerEngine.Systems.Physics
             if (side == CollisionSide.Bottom) {
                 e.Position.Y = other.Bounds.Top - e.Height;
                 e.Velocity.Y = 0;
+                e.Contacts.IsGrounded = true;
             }
             else if (side == CollisionSide.Top) {
                 e.Position.Y = other.Bounds.Bottom;
                 e.Velocity.Y = 0;
+                e.Contacts.HitCeiling = true;
             }
         }
     }

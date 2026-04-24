@@ -8,14 +8,10 @@ namespace MarioLikePlatformerEngine.Core
 {
     public class GroundEntity : Entity
     {
-        //private int _width;
-        //private int _height;
         private Texture2D _whitePixel;
 
         public GroundEntity(Vector2 position, int width, int height) : base(position, width, height, EntityTag.Ground)
         {
-            //_width = width;
-            //_height = height;
         }
 
         public override void Load(GameResources resources)

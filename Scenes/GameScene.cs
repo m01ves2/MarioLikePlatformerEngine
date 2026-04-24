@@ -1,5 +1,4 @@
 ﻿using MarioLikePlatformerEngine.Core;
-using MarioLikePlatformerEngine.Systems;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using MarioLikePlatformerEngine.Systems.Physics;
 using Microsoft.Xna.Framework;
@@ -40,18 +39,13 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Update(float dt)
         {
+            // 1. input / AI
             foreach (var e in _entities)
                 e.Update(dt); // ТОЛЬКО input / AI
 
+            // 2. physics + collisions
             List<CollisionEvent> events = new List<CollisionEvent>();
             _physics.Step(_entities, dt, events);
-
-            foreach (var e in _entities) {
-                e.IsGrounded = false;
-                e.IsTouchingWallLeft = false;
-                e.IsTouchingWallRight = false;
-                e.HitCeiling = false;
-            }
 
             _rules.Apply(events);
         }
