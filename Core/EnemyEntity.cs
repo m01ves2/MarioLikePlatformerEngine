@@ -1,6 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Scenes;
+using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace MarioLikePlatformerEngine.Core
         private readonly EnemyEntityConfig _config;
 
         private float _direction = 1;
-        private IReadOnlyList<Entity> _entities;
+        private TileMap _map;
 
         public EnemyEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Enemy)
@@ -51,27 +52,40 @@ namespace MarioLikePlatformerEngine.Core
 
         private bool CheckGroundAhead(float dt)
         {
-            Rectangle probe = new Rectangle((int)(Position.X + _direction * Width),
-                                             (int)(Position.Y + Height + 1), Width, 2);
+            //Rectangle probe = new Rectangle((int)(Position.X + _direction * Width),
+            //                                 (int)(Position.Y + Height + 1), Width, 2);
 
-            return _entities.Any(e => e.Tag == EntityTag.Ground && e.Bounds.Intersects(probe));
+            //return _entities.Any(e => e.Tag == EntityTag.Ground && e.Bounds.Intersects(probe));
+
+            //float nextX = Position.X + _direction * Width;
+
+            //int footY = (int)((Position.Y + Height + 1) / _map.TileSize);
+            //int checkX = (int)(nextX / _map.TileSize);
+
+            //float nextX = Position.X + _direction * Width;
+
+            float nextX = Position.X + (_direction > 0 ? Width : -1);
+            int footY = (int)((Position.Y + Height + 1) / _map.TileSize);
+            int checkX = (int)(nextX / _map.TileSize);
+
+            return _map.IsSolid(checkX, footY);
         }
 
-        public void Sense(IReadOnlyList<Entity> entities)
+        public void Sense(TileMap map)
         {
-            _entities = entities;
+            _map = map;
         }
 
-        private float GetAI()
-        {
-            if (Contacts.IsTouchingWallLeft)
-                _direction = -1;
+        //private float GetAI()
+        //{
+        //    if (Contacts.IsTouchingWallLeft)
+        //        _direction = 1;
 
-            if (Contacts.IsTouchingWallRight)
-                _direction = 1;
+        //    if (Contacts.IsTouchingWallRight)
+        //        _direction = -1;
 
-            return _direction;
-        }
+        //    return _direction;
+        //}
 
         public override void Draw(SpriteBatch spriteBatch)
         {
