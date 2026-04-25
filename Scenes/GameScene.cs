@@ -41,6 +41,8 @@ namespace MarioLikePlatformerEngine.Scenes
             AddEntity(new GroundEntity(new Vector2(720, 500), 80, 50));
             
             AddEntity(new GroundEntity(new Vector2(720, 420), 80, 50));
+
+            AddEntity(new EnemyEntity(new Vector2(500, 480), 20, 20));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -50,6 +52,12 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Update(float dt)
         {
+            foreach (var e in _entities) {
+                if (e is EnemyEntity enemy) {
+                    enemy.Sense(_entities);
+                }
+            }
+
             // 1. input / AI
             foreach (var e in _entities)
                 e.Update(dt); // ТОЛЬКО input / AI
@@ -59,6 +67,8 @@ namespace MarioLikePlatformerEngine.Scenes
             _physics.Step(_entities, dt, events);
 
             _rules.Apply(events);
+
+            _entities.RemoveAll(e => e.IsPendingDestroy);
         }
     }
 }

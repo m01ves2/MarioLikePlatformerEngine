@@ -41,7 +41,7 @@ namespace MarioLikePlatformerEngine.Core
 
         public void TakeDamage()
         {
-
+            System.Diagnostics.Debug.WriteLine("PLAYER DAMAGED");
         }
     }
 }
