@@ -22,7 +22,7 @@ namespace MarioLikePlatformerEngine.Core
         public EntityTag Tag { get; private set; }
 
         public bool IsPendingDestroy = false;
-        public ContactState Contacts { get; } = new ContactState();
+        public Contacts Contacts { get; set; } = new Contacts();
 
         public Entity(Vector2 position, int width, int height,  EntityTag tag) { 
             Position = position;

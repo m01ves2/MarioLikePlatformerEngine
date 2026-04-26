@@ -5,6 +5,7 @@ using MarioLikePlatformerEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace MarioLikePlatformerEngine.Core
 {
@@ -75,9 +76,18 @@ namespace MarioLikePlatformerEngine.Core
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Draw(
+            //    _whitePixel,
+            //    new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
+            //    Color.White
+            //);
             spriteBatch.Draw(
                 _whitePixel,
-                new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
+                new Rectangle(
+                    (int)MathF.Round(Position.X),
+                    (int)MathF.Round(Position.Y),
+                    Width,
+                    Height),
                 Color.White
             );
         }

@@ -1,6 +1,6 @@
 ﻿namespace MarioLikePlatformerEngine.Core.Components
 {
-    public class ContactState
+    public class Contacts
     {
         public bool IsGrounded;
         public bool IsTouchingWallLeft;
