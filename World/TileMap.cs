@@ -6,6 +6,11 @@
 
         private int[,] _tiles;
 
+        public int Width => _tiles.GetLength(1) * TileSize;
+        public int Height => _tiles.GetLength(0) * TileSize;
+        public int HeightInTiles => _tiles.GetLength(0);
+        public int WidthInTiles => _tiles.GetLength(1);
+
         public TileMap(int width, int height, int tileSize = 32)
         {
             TileSize = tileSize;

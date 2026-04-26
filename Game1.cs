@@ -15,7 +15,6 @@ public class Game1 : Game
     private int _screenWidth = 800;
     private int _screenHeight = 600;
 
-
     private SceneManager _sceneManager;
 
     public Game1()
@@ -28,6 +27,7 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = _screenWidth;
         _graphics.PreferredBackBufferHeight = _screenHeight;
         _graphics.ApplyChanges();
+
     }
 
     protected override void Initialize()
@@ -48,7 +48,9 @@ public class Game1 : Game
 
         var resources = new GameResources
         {
-            WhitePixel = whitePixel
+            WhitePixel = whitePixel,
+            ScreenHeight = _screenHeight,
+            ScreenWidth = _screenWidth,
         };
 
         _sceneManager = new SceneManager(resources);
@@ -72,12 +74,14 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        _spriteBatch.Begin();
+        //_spriteBatch.Begin();
+        //_spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
+
         // TODO: Add your drawing code here
         _sceneManager.Draw(_spriteBatch);
 
-        base.Draw(gameTime);
+        //base.Draw(gameTime);
 
-        _spriteBatch.End();
+        //_spriteBatch.End();
     }
 }

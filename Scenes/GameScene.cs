@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
+
 namespace MarioLikePlatformerEngine.Scenes
 {
     public class GameScene : Scene
@@ -13,6 +14,8 @@ namespace MarioLikePlatformerEngine.Scenes
         private CollisionRulesSystem _rules;
         private PhysicsSystem _physics;
         private TileMap _map;
+        private PlayerEntity _player;
+
         public GameScene()
         {
             _rules = new CollisionRulesSystem();
@@ -36,9 +39,21 @@ namespace MarioLikePlatformerEngine.Scenes
             ///
             _map = new TileMap(50, 20);
 
+            // левая стена
+            for (int y = 0; y < _map.HeightInTiles; y++)
+                _map.SetSolid(0, y);
+
+            // правая стена
+            for (int y = 0; y < _map.HeightInTiles; y++)
+                _map.SetSolid(_map.WidthInTiles - 1, y);
+
+            // потолок
+            for (int x = 0; x < _map.WidthInTiles; x++)
+                _map.SetSolid(x, 0);
+
             // земля
             for (int x = 2; x < 50; x++)
-                _map.SetSolid(x, 18);
+                _map.SetSolid(x, 19);
 
             // небольшие платформы
             for (int x = 5; x < 10; x++)
@@ -47,16 +62,27 @@ namespace MarioLikePlatformerEngine.Scenes
             for (int x = 20; x < 25; x++)
                 _map.SetSolid(x, 12);
 
-            _map.SetSolid(20, 17);
+            _map.SetSolid(20, 18);
 
-            AddEntity(new PlayerEntity(new Vector2(100, 100), 20, 20));
-            AddEntity(new EnemyEntity(new Vector2(500, 556), 20, 20));
+            _player = new PlayerEntity(new Vector2(100, 588), 20, 20);
+            AddEntity(_player);
+
+            AddEntity(new EnemyEntity(new Vector2(500, 588), 20, 20));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
+        {        
+            spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             DrawTileMap(spriteBatch, _resources.WhitePixel);
-            base.Draw(spriteBatch);
+            DrawEntities(spriteBatch);
+
+            spriteBatch.End();
+        }
+
+        protected void DrawEntities(SpriteBatch spriteBatch)
+        {
+            foreach (var entity in _entities)
+                entity.Draw(spriteBatch);
         }
 
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)
@@ -97,6 +123,15 @@ namespace MarioLikePlatformerEngine.Scenes
             _rules.Apply(events);
 
             _entities.RemoveAll(e => e.IsPendingDestroy);
+
+            var screenCenter = new Vector2(_resources.ScreenWidth / 2f, _resources.ScreenHeight / 2f);
+            _camera.Position = _player.Position - screenCenter;
+            //Debug.WriteLine("CAMERA UPDATE, " + _camera.Position);
+
+            _camera.Position.X = MathHelper.Clamp(_camera.Position.X, 0, _map.Width - _resources.ScreenWidth);
+            _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - _resources.ScreenHeight);
+            //System.Diagnostics.Debug.WriteLine(_player.Position);
+            //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
         }
     }
 }

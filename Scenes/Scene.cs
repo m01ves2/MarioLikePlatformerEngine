@@ -8,10 +8,11 @@ namespace MarioLikePlatformerEngine.Scenes
     {
         protected GameResources _resources;
         protected List<Entity> _entities;
-
+        protected Camera2D _camera;
         public Scene()
         {
             _entities = new List<Entity>();
+            _camera = new Camera2D();
         }
 
         public virtual void Load(GameResources resources)
@@ -36,9 +37,6 @@ namespace MarioLikePlatformerEngine.Scenes
             _entities.RemoveAll(e => e.IsPendingDestroy);
         }
         public virtual void Draw(SpriteBatch spriteBatch) {
-            foreach (Entity entity in _entities) {
-                entity.Draw(spriteBatch);
-            }
         }
     }
 }
