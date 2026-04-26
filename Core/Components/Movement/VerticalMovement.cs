@@ -1,6 +1,6 @@
-﻿namespace MarioLikePlatformerEngine.Core.Components
+﻿namespace MarioLikePlatformerEngine.Core.Components.Movement
 {
-    public class VerticalMovementComponent
+    public class VerticalMovement
     {
         private float _gravity;
         private float _jumpSpeed;
@@ -12,7 +12,7 @@
         private float _jumpBufferCounter;
         private float _coyoteCounter;
 
-        public VerticalMovementComponent(
+        public VerticalMovement(
             float gravity,
             float jumpSpeed,
             float jumpCutMultiplier,

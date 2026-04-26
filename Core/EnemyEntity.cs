@@ -1,4 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
+using MarioLikePlatformerEngine.Core.Components.Behavior;
+using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Scenes;
 using MarioLikePlatformerEngine.World;
@@ -12,10 +14,11 @@ namespace MarioLikePlatformerEngine.Core
     public class EnemyEntity : Entity
     {
         private Texture2D _whitePixel;
-        private readonly MovementComponent _movement;
+        private readonly IMovement _movement;
         private readonly EnemyEntityConfig _config;
+        private readonly IBehavior _behavior;
 
-        private float _direction = 1;
+        //private float _direction = 1;
         private TileMap _map;
 
         public EnemyEntity(Vector2 position, int width, int height)
@@ -23,12 +26,9 @@ namespace MarioLikePlatformerEngine.Core
         {
             _config = new EnemyEntityConfig();
 
-            _movement = new MovementComponent(
-                _config.MoveAcceleration,
-                _config.MaxSpeed,
-                _config.Friction,
-                _config.AirControl
-             );
+            _movement = new SimpleMovement();
+
+            _behavior = new PatrolBehavior();
         }
 
         public override void Load(GameResources resources)
@@ -38,54 +38,14 @@ namespace MarioLikePlatformerEngine.Core
 
         public override void Update(float dt)
         {
-            bool hasGroundAhead = CheckGroundAhead(dt);
-
-            if (!hasGroundAhead || Contacts.IsTouchingWallLeft || Contacts.IsTouchingWallRight) {
-                Velocity.X = 0;
-                _direction *= -1;
-            }
-
-            float inputX = _direction;
-
+            float inputX = _behavior.GetInputX(this, _map, dt);
             _movement.Apply(this, inputX, Contacts.IsGrounded, dt);
-        }
-
-        private bool CheckGroundAhead(float dt)
-        {
-            //Rectangle probe = new Rectangle((int)(Position.X + _direction * Width),
-            //                                 (int)(Position.Y + Height + 1), Width, 2);
-
-            //return _entities.Any(e => e.Tag == EntityTag.Ground && e.Bounds.Intersects(probe));
-
-            //float nextX = Position.X + _direction * Width;
-
-            //int footY = (int)((Position.Y + Height + 1) / _map.TileSize);
-            //int checkX = (int)(nextX / _map.TileSize);
-
-            //float nextX = Position.X + _direction * Width;
-
-            float nextX = Position.X + (_direction > 0 ? Width : -1);
-            int footY = (int)((Position.Y + Height + 1) / _map.TileSize);
-            int checkX = (int)(nextX / _map.TileSize);
-
-            return _map.IsSolid(checkX, footY);
         }
 
         public void Sense(TileMap map)
         {
             _map = map;
         }
-
-        //private float GetAI()
-        //{
-        //    if (Contacts.IsTouchingWallLeft)
-        //        _direction = 1;
-
-        //    if (Contacts.IsTouchingWallRight)
-        //        _direction = -1;
-
-        //    return _direction;
-        //}
 
         public override void Draw(SpriteBatch spriteBatch)
         {

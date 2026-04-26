@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MarioLikePlatformerEngine.Core.Components
+namespace MarioLikePlatformerEngine.Core.Components.Movement
 {
-    public class MovementComponent
+    public class PhysicsMovement : IMovement
     {
         private float _moveAcceleration;
         private float _maxSpeed;
         private float _friction;
         private float _airControl;
 
-        public MovementComponent(float moveAcceleration, float maxSpeed, float friction, float airControl)
+        public PhysicsMovement(float moveAcceleration, float maxSpeed, float friction, float airControl)
         {
             _moveAcceleration = moveAcceleration;
             _maxSpeed = maxSpeed;

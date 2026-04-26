@@ -1,4 +1,5 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
+using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Scenes;
@@ -17,8 +18,8 @@ namespace MarioLikePlatformerEngine.Core
         private bool _jumpPressed;
         private bool _jumpReleased;
 
-        private readonly MovementComponent _movement;
-        private readonly VerticalMovementComponent _vertical;
+        private readonly IMovement _movement;
+        private readonly VerticalMovement _vertical;
         private readonly PlayerEntityConfig _config;
 
         private int _health = 1;
@@ -29,14 +30,14 @@ namespace MarioLikePlatformerEngine.Core
         {
             _config = new PlayerEntityConfig();
 
-            _movement = new MovementComponent(
+            _movement = new PhysicsMovement(
                 _config.MoveAcceleration,
                 _config.MaxSpeed,
                 _config.Friction,
                 _config.AirControl
             );
 
-            _vertical = new VerticalMovementComponent(
+            _vertical = new VerticalMovement(
                 _config.Gravity,
                 _config.JumpSpeed,
                 _config.JumpCutMultiplier,
