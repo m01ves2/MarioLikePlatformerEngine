@@ -13,7 +13,7 @@ namespace MarioLikePlatformerEngine.Scenes
     {
         public GameState State { get; private set; } = GameState.Playing;
         private GameContext _context;
-        public override GameCommand Command => _context.Command;
+        //public override GameCommand Command => _context.Command;
 
         private CollisionRulesSystem _rules;
         private PhysicsSystem _physics;
@@ -151,10 +151,17 @@ namespace MarioLikePlatformerEngine.Scenes
         private bool isGameOver()
         {
             if (_player.Position.Y > _context.Map.Height + 200) {
-                _player.IsDead = true;
+                _player.Kill();
             }
 
             return _player.IsDead;
+        }
+
+        public override GameCommand ConsumeCommand()
+        {
+            var cmd = _context.Command;
+            _context.Command = GameCommand.None;
+            return cmd;
         }
     }
 }

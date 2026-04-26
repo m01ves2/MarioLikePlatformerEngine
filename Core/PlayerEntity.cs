@@ -20,7 +20,8 @@ namespace MarioLikePlatformerEngine.Core
         private readonly VerticalMovementComponent _vertical;
         private readonly PlayerEntityConfig _config;
 
-        public bool IsDead { get; set; } = false;
+        private int _health = 1;
+        public bool IsDead { get; private set; } = false;
 
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player)
@@ -79,6 +80,21 @@ namespace MarioLikePlatformerEngine.Core
                 new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
                 Color.White
             );
+        }
+
+        public override void TakeDamage()
+        {
+            _health--; 
+
+            if(_health <=0 )
+                Kill();
+        }
+
+        public void Kill()
+        {
+            if (IsDead) return;
+
+            IsDead = true;
         }
     }
 }

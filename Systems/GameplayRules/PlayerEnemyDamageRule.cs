@@ -10,8 +10,9 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
             //return e.A.Tag == EntityTag.Player &&
             //       e.B.Tag == EntityTag.Enemy &&
             //       (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right);
-            return     (e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy)
-                    || (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player);
+            return     ((e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy) || 
+                        (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player)) &&
+                        (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right);
         }
 
         public void Apply(CollisionEvent e)

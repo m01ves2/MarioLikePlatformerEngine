@@ -39,9 +39,9 @@ namespace MarioLikePlatformerEngine.Core
         public virtual void Load(GameResources resources) { 
         }
 
-        public void TakeDamage()
+        public virtual void TakeDamage()
         {
-            System.Diagnostics.Debug.WriteLine("PLAYER DAMAGED");
+            System.Diagnostics.Debug.WriteLine("ENTITY DAMAGED");
         }
     }
 }

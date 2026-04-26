@@ -10,7 +10,7 @@ namespace MarioLikePlatformerEngine.Scenes
         protected List<Entity> _entities;
         protected Camera2D _camera;
 
-        public abstract GameCommand Command { get; }
+        //public abstract GameCommand Command { get; }
         public Scene()
         {
             _entities = new List<Entity>();
@@ -40,5 +40,7 @@ namespace MarioLikePlatformerEngine.Scenes
         }
         public virtual void Draw(SpriteBatch spriteBatch) {
         }
+
+        public abstract GameCommand ConsumeCommand();
     }
 }
