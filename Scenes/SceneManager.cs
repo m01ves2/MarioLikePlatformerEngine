@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using MarioLikePlatformerEngine.Core;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace MarioLikePlatformerEngine.Scenes
@@ -25,8 +26,14 @@ namespace MarioLikePlatformerEngine.Scenes
         {
             _current?.Update(dt);
 
-            if (_current.Command == Core.GameCommand.Restart) {
-                RestartCurrentScene();
+            var cmd = _current?.ConsumeCommand();
+
+            switch (cmd) {
+                case GameCommand.Restart:
+                    RestartCurrentScene();
+                    break;
+                case GameCommand.None:
+                    break;
             }
         }
 
