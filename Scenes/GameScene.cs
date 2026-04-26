@@ -11,6 +11,10 @@ namespace MarioLikePlatformerEngine.Scenes
 {
     public class GameScene : Scene
     {
+        public GameState State { get; private set; } = GameState.Playing;
+        private GameContext _context;
+        public override GameCommand Command => _context.Command;
+
         private CollisionRulesSystem _rules;
         private PhysicsSystem _physics;
         private TileMap _map;
@@ -19,7 +23,6 @@ namespace MarioLikePlatformerEngine.Scenes
         public GameScene()
         {
             _rules = new CollisionRulesSystem();
-
             //_rules.AddRule(new PlayerGroundRule());
             _rules.AddRule(new PlayerEnemyStompRule());
             _rules.AddRule(new PlayerEnemyDamageRule());
@@ -29,14 +32,6 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Initialize()
         {
-            //AddEntity(new PlayerEntity(new Vector2(100, 100), 20, 20));
-
-            //_map = new TileMap(50, 20);
-            //for (int x = 0; x < 50; x++)
-            //    _map.SetSolid(x, 17);
-
-            ////AddEntity(new EnemyEntity(new Vector2(500, 480), 20, 20));
-            ///
             _map = new TileMap(50, 20);
 
             // левая стена
@@ -66,12 +61,14 @@ namespace MarioLikePlatformerEngine.Scenes
 
             _player = new PlayerEntity(new Vector2(100, 588), 20, 20);
             AddEntity(_player);
-
             AddEntity(new EnemyEntity(new Vector2(500, 588), 20, 20));
+
+
+            _context = new GameContext() { Map = _map, State = State };
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {        
+        {
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             DrawTileMap(spriteBatch, _resources.WhitePixel);
             DrawEntities(spriteBatch);
@@ -84,13 +81,12 @@ namespace MarioLikePlatformerEngine.Scenes
             foreach (var entity in _entities)
                 entity.Draw(spriteBatch);
         }
-
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)
         {
             for (int y = 0; y < 20; y++) {
                 for (int x = 0; x < 50; x++) {
                     if (_map.IsSolid(x, y)) {
-                        sb.Draw( pixel, 
+                        sb.Draw(pixel,
                             new Rectangle(
                                 x * _map.TileSize,
                                 y * _map.TileSize,
@@ -132,6 +128,33 @@ namespace MarioLikePlatformerEngine.Scenes
             _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - _resources.ScreenHeight);
             //System.Diagnostics.Debug.WriteLine(_player.Position);
             //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
+
+
+            if (_context.State == GameState.Dead) {
+                RestartLevel();
+            }
+
+            if (isGameOver()) {
+                _context.Command = GameCommand.Restart;
+            }
+        }
+
+        public void RestartLevel()
+        {
+            _entities.Clear();
+            _map = null;
+            _player = null;
+
+            Initialize();
+        }
+
+        private bool isGameOver()
+        {
+            if (_player.Position.Y > _context.Map.Height + 200) {
+                _player.IsDead = true;
+            }
+
+            return _player.IsDead;
         }
     }
 }

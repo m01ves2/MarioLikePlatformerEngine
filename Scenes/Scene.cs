@@ -9,6 +9,8 @@ namespace MarioLikePlatformerEngine.Scenes
         protected GameResources _resources;
         protected List<Entity> _entities;
         protected Camera2D _camera;
+
+        public abstract GameCommand Command { get; }
         public Scene()
         {
             _entities = new List<Entity>();

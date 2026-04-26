@@ -20,6 +20,8 @@ namespace MarioLikePlatformerEngine.Core
         private readonly VerticalMovementComponent _vertical;
         private readonly PlayerEntityConfig _config;
 
+        public bool IsDead { get; set; } = false;
+
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player)
         {
