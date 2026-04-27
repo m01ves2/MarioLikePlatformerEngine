@@ -6,8 +6,6 @@ using MarioLikePlatformerEngine.Scenes;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MarioLikePlatformerEngine.Core
 {
@@ -38,8 +36,9 @@ namespace MarioLikePlatformerEngine.Core
 
         public override void Update(float dt)
         {
-            float inputX = _behavior.GetInputX(this, _map, dt);
-            _movement.Apply(this, inputX, Contacts.IsGrounded, dt);
+            var intent = _behavior.GetIntent(this, _map, dt);
+
+            _movement.Apply(this, intent.DirectionX, Contacts.IsGrounded, dt);
         }
 
         public void Sense(TileMap map)
