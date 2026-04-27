@@ -12,11 +12,21 @@ namespace MarioLikePlatformerEngine.Core
 {
     public class PlayerEntity : Entity
     {
+        //private struct PlayerInput
+        //{
+        //    public float DirectionX;
+        //    public bool JumpPressed;
+        //    public bool JumpReleased;
+        //}
+        //private PlayerInput _input;
+
+        private MovementIntent _intent;
+
         private Texture2D _whitePixel;
 
-        private float _inputX;
-        private bool _jumpPressed;
-        private bool _jumpReleased;
+        //private float _inputX;
+        //private bool _jumpPressed;
+        //private bool _jumpReleased;
 
         private readonly IMovement _movement;
         private readonly VerticalMovement _vertical;
@@ -24,6 +34,7 @@ namespace MarioLikePlatformerEngine.Core
 
         private int _health = 1;
         public bool IsDead { get; private set; } = false;
+
 
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player)
@@ -51,28 +62,59 @@ namespace MarioLikePlatformerEngine.Core
             _whitePixel = resources.WhitePixel;
         }
 
+        //public override void Update(float dt)
+        //{
+        //    ReadInput();
+
+        //    _movement.Apply(this, _inputX, Contacts.IsGrounded, dt);
+
+        //    _vertical.UpdateTimers(_jumpPressed, Contacts.IsGrounded, dt);
+        //    _vertical.Apply(this, _jumpPressed, _jumpReleased, Contacts.IsGrounded, dt);
+        //}
+
+        //private void ReadInput()
+        //{
+        //    _inputX = 0;
+
+        //    if (Input.IsKeyDown(Keys.Left))
+        //        _inputX -= 1;
+
+        //    if (Input.IsKeyDown(Keys.Right))
+        //        _inputX += 1;
+
+        //    _jumpPressed = Input.IsKeyPressed(Keys.Space);
+        //    _jumpReleased = Input.IsKeyReleased(Keys.Space);
+        //}
+
         public override void Update(float dt)
         {
             ReadInput();
 
-            _movement.Apply(this, _inputX, Contacts.IsGrounded, dt);
+            _movement.Apply(this, _intent.DirectionX, Contacts.IsGrounded, dt);
 
-            _vertical.UpdateTimers(_jumpPressed, Contacts.IsGrounded, dt);
-            _vertical.Apply(this, _jumpPressed, _jumpReleased, Contacts.IsGrounded, dt);
+            _vertical.UpdateTimers(_intent.JumpPressed, Contacts.IsGrounded, dt);
+
+            _vertical.Apply(
+                this,
+                _intent.JumpPressed,
+                _intent.JumpReleased,
+                Contacts.IsGrounded,
+                dt
+            );
         }
 
         private void ReadInput()
         {
-            _inputX = 0;
+            _intent.DirectionX = 0;
 
             if (Input.IsKeyDown(Keys.Left))
-                _inputX -= 1;
+                _intent.DirectionX -= 1;
 
             if (Input.IsKeyDown(Keys.Right))
-                _inputX += 1;
+                _intent.DirectionX += 1;
 
-            _jumpPressed = Input.IsKeyPressed(Keys.Space);
-            _jumpReleased = Input.IsKeyReleased(Keys.Space);
+            _intent.JumpPressed = Input.IsKeyPressed(Keys.Space);
+            _intent.JumpReleased = Input.IsKeyReleased(Keys.Space);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
