@@ -24,7 +24,13 @@ namespace MarioLikePlatformerEngine.Core
         {
             _config = new EnemyEntityConfig();
 
-            _movement = new SimpleMovement();
+            //_movement = new SimpleMovement();
+            _movement = new PhysicsMovement(
+                moveAcceleration: 9999f,
+                maxSpeed: 100f,
+                friction: 9999f,
+                airControl: 1f
+            );
 
             _behavior = new PatrolBehavior();
         }
@@ -34,12 +40,26 @@ namespace MarioLikePlatformerEngine.Core
             _whitePixel = resources.WhitePixel;
         }
 
+        //public override void Update(float dt)
+        //{
+        //    var intent = _behavior.GetIntent(this, _map, dt);
+
+        //    _movement.Apply(this, intent.DirectionX, Contacts.IsGrounded, dt);
+        //}
+        //public override void Update(float dt)
+        //{
+        //    var intent = _behavior.GetIntent(this, _map, dt);
+
+        //    _movement.Apply(this, intent.DirectionX, intent.DirectionY, false, dt);
+        //}
+
         public override void Update(float dt)
         {
             var intent = _behavior.GetIntent(this, _map, dt);
 
-            _movement.Apply(this, intent.DirectionX, Contacts.IsGrounded, dt);
+            _movement.Apply(this, intent.DirectionX, intent.DirectionY, false, dt);
         }
+
 
         public void Sense(TileMap map)
         {

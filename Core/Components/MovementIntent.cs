@@ -2,10 +2,8 @@
 {
     public struct MovementIntent
     {
-        //public float DirectionX;
-        //public float DirectionY;
-
         public float DirectionX;
+        public float DirectionY;
 
         public bool JumpPressed;
         public bool JumpReleased;

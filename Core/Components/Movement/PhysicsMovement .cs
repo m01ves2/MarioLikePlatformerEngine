@@ -17,18 +17,52 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             _airControl = airControl;
         }
 
-        public void Apply(Entity entity, float inputX, bool isGrounded, float dt)
+        //public void Apply(Entity entity, float inputX, bool isGrounded, float dt)
+        //{
+        //    float control = isGrounded ? 1f : _airControl;
+
+        //    if (inputX != 0) {
+        //        entity.Velocity.X += inputX * _moveAcceleration * control * dt;
+        //    }
+        //    else {
+        //        ApplyFriction(entity, dt);
+        //    }
+
+        //    entity.Velocity.X = MathHelper.Clamp(entity.Velocity.X, -_maxSpeed, _maxSpeed);
+        //}
+
+        //public void Apply(Entity entity, float inputX, float inputY, bool isGrounded, float dt)
+        //{
+        //    float control = isGrounded ? 1f : _airControl;
+
+        //    if (inputX != 0)
+        //        entity.Velocity.X += inputX * _moveAcceleration * control * dt;
+        //    else
+        //        //ApplyFrictionX(entity, dt);
+        //        ApplyFriction(entity, dt);
+
+        //    //if (inputY != 0)
+        //    //    entity.Velocity.Y += inputY * _moveAcceleration * control * dt;
+
+        //    entity.Velocity.X = MathHelper.Clamp(entity.Velocity.X, -_maxSpeed, _maxSpeed);
+        //  //  entity.Velocity.Y = MathHelper.Clamp(entity.Velocity.Y, -_maxSpeed, _maxSpeed);
+        //}
+
+        public void Apply(Entity entity, float inputX, float inputY, bool isGrounded, float dt)
         {
             float control = isGrounded ? 1f : _airControl;
 
-            if (inputX != 0) {
+            if (inputX != 0)
                 entity.Velocity.X += inputX * _moveAcceleration * control * dt;
-            }
-            else {
+            else
                 ApplyFriction(entity, dt);
-            }
 
             entity.Velocity.X = MathHelper.Clamp(entity.Velocity.X, -_maxSpeed, _maxSpeed);
+        }
+
+        public void Apply(Entity entity, float inputX, bool isGrounded, float dt)
+        {
+            Apply(entity, inputX, 0, isGrounded, dt);
         }
 
         private void ApplyFriction(Entity entity, float dt) //тренние

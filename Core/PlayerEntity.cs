@@ -90,7 +90,7 @@ namespace MarioLikePlatformerEngine.Core
         {
             ReadInput();
 
-            _movement.Apply(this, _intent.DirectionX, Contacts.IsGrounded, dt);
+            _movement.Apply(this, _intent.DirectionX, 0, Contacts.IsGrounded, dt);
 
             _vertical.UpdateTimers(_intent.JumpPressed, Contacts.IsGrounded, dt);
 

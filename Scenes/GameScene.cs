@@ -61,6 +61,7 @@ namespace MarioLikePlatformerEngine.Scenes
             _player = new PlayerEntity(new Vector2(100, 588), 20, 20);
             AddEntity(_player);
             AddEntity(new EnemyEntity(new Vector2(500, 588), 20, 20));
+            AddEntity(new FlyingEnemy(new Vector2(300, 200), 20, 20));
 
 
             _context = new GameContext() { Map = _map, State = State };
