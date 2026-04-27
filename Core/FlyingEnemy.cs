@@ -14,12 +14,12 @@ namespace MarioLikePlatformerEngine.Core
         private readonly IBehavior _behavior;
         private TileMap _map;
 
-        public FlyingEnemy(Vector2 position, int width, int height)
+        public FlyingEnemy(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
             : base(position, width, height, EntityTag.Enemy)
         {
             //_movement = new PhysicsMovement(800f, 150f, 0f, 1f);
             _movement = new SimpleMovement();
-            _behavior = new FlyingBehavior();
+            _behavior = flyingBehavior;
         }
 
         public override void Load(GameResources resources)

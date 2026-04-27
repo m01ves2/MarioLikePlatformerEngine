@@ -1,21 +1,41 @@
 ﻿using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace MarioLikePlatformerEngine.Core.Components.Behavior
 {
     public class FlyingBehavior : IBehavior
     {
+        private float _minX;
+        private float _maxX;
+        private float _minY;
+        private float _maxY;
+
         private Vector2 _direction = new Vector2(1, -1);
+
+        public FlyingBehavior(float minX, float maxX, float minY, float maxY)
+        {
+            _minX = minX;
+            _maxX = maxX;
+            _minY = minY;
+            _maxY = maxY;
+        }
 
         public MovementIntent GetIntent(Entity e, TileMap map, float dt)
         {
-            // отражение от стен
-            if (e.Contacts.IsTouchingWallLeft || e.Contacts.IsTouchingWallRight)
-                _direction.X *= -1;
+            // границы по X
+            if (e.Position.X <= _minX)
+                _direction.X = Math.Abs(_direction.X);
 
-            // отражение от пола/потолка
-            if (e.Contacts.IsGrounded || e.Contacts.HitCeiling)
-                _direction.Y *= -1;
+            if (e.Position.X + e.Width >= _maxX)
+                _direction.X = -Math.Abs(_direction.X);
+
+            // границы по Y
+            if (e.Position.Y <= _minY)
+                _direction.Y = Math.Abs(_direction.Y);
+
+            if (e.Position.Y + e.Height >= _maxY)
+                _direction.Y = -Math.Abs(_direction.Y);
 
             return new MovementIntent
             {

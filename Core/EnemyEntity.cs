@@ -1,4 +1,5 @@
-﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
+﻿using MarioLikePlatformerEngine.Core.Components;
+using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Scenes;

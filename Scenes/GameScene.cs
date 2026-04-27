@@ -1,4 +1,5 @@
 ﻿using MarioLikePlatformerEngine.Core;
+using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
@@ -18,7 +19,7 @@ namespace MarioLikePlatformerEngine.Scenes
         private PhysicsSystem _physics;
         private TileMap _map;
         private PlayerEntity _player;
-
+        private Rectangle _goal;
         public GameScene()
         {
             _rules = new CollisionRulesSystem();
@@ -61,10 +62,14 @@ namespace MarioLikePlatformerEngine.Scenes
             _player = new PlayerEntity(new Vector2(100, 588), 20, 20);
             AddEntity(_player);
             AddEntity(new EnemyEntity(new Vector2(500, 588), 20, 20));
-            AddEntity(new FlyingEnemy(new Vector2(300, 200), 20, 20));
+            AddEntity(new FlyingEnemy(new Vector2(300, 200),
+                        new FlyingBehavior(250, 450, 150, 300),
+                        20,
+                        20));
 
 
             _context = new GameContext() { Map = _map, State = State };
+            _goal = new Rectangle(1400, 568, 40, 40);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -72,7 +77,7 @@ namespace MarioLikePlatformerEngine.Scenes
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             DrawTileMap(spriteBatch, _resources.WhitePixel);
             DrawEntities(spriteBatch);
-
+            DrawGoal(spriteBatch);
             spriteBatch.End();
         }
 
@@ -98,6 +103,15 @@ namespace MarioLikePlatformerEngine.Scenes
                     }
                 }
             }
+        }
+
+        public void DrawGoal(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                _resources.WhitePixel,
+                _goal,
+                Color.Gold
+            );
         }
 
         public override void Update(float dt)
@@ -137,6 +151,10 @@ namespace MarioLikePlatformerEngine.Scenes
             if (isGameOver()) {
                 _context.Command = GameCommand.Restart;
             }
+
+            if (iskWin()) {
+                _context.Command = GameCommand.Restart;
+            }
         }
 
         public void RestartLevel()
@@ -155,6 +173,15 @@ namespace MarioLikePlatformerEngine.Scenes
             }
 
             return _player.IsDead;
+        }
+
+        private bool iskWin()
+        {
+            if (_player.Bounds.Intersects(_goal)) {
+                _context.State = GameState.Win;
+                return true;
+            }
+            return false;
         }
 
         public override GameCommand ConsumeCommand()
