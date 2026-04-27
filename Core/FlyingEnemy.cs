@@ -31,7 +31,7 @@ namespace MarioLikePlatformerEngine.Core
         {
             var intent = _behavior.GetIntent(this, _map, dt);
 
-            _movement.Apply(this, intent.DirectionX, intent.DirectionY, false, dt);
+            _movement.Apply(this, intent, false, dt);
         }
 
         public void Sense(TileMap map)

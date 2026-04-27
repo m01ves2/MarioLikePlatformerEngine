@@ -12,21 +12,9 @@ namespace MarioLikePlatformerEngine.Core
 {
     public class PlayerEntity : Entity
     {
-        //private struct PlayerInput
-        //{
-        //    public float DirectionX;
-        //    public bool JumpPressed;
-        //    public bool JumpReleased;
-        //}
-        //private PlayerInput _input;
-
         private MovementIntent _intent;
 
         private Texture2D _whitePixel;
-
-        //private float _inputX;
-        //private bool _jumpPressed;
-        //private bool _jumpReleased;
 
         private readonly IMovement _movement;
         private readonly VerticalMovement _vertical;
@@ -62,36 +50,12 @@ namespace MarioLikePlatformerEngine.Core
             _whitePixel = resources.WhitePixel;
         }
 
-        //public override void Update(float dt)
-        //{
-        //    ReadInput();
-
-        //    _movement.Apply(this, _inputX, Contacts.IsGrounded, dt);
-
-        //    _vertical.UpdateTimers(_jumpPressed, Contacts.IsGrounded, dt);
-        //    _vertical.Apply(this, _jumpPressed, _jumpReleased, Contacts.IsGrounded, dt);
-        //}
-
-        //private void ReadInput()
-        //{
-        //    _inputX = 0;
-
-        //    if (Input.IsKeyDown(Keys.Left))
-        //        _inputX -= 1;
-
-        //    if (Input.IsKeyDown(Keys.Right))
-        //        _inputX += 1;
-
-        //    _jumpPressed = Input.IsKeyPressed(Keys.Space);
-        //    _jumpReleased = Input.IsKeyReleased(Keys.Space);
-        //}
-
         public override void Update(float dt)
         {
             ReadInput();
 
-            _movement.Apply(this, _intent.DirectionX, 0, Contacts.IsGrounded, dt);
-
+            //_movement.Apply(this, _intent.DirectionX, 0, Contacts.IsGrounded, dt);
+            _movement.Apply(this, _intent, Contacts.IsGrounded, dt);
             _vertical.UpdateTimers(_intent.JumpPressed, Contacts.IsGrounded, dt);
 
             _vertical.Apply(

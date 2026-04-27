@@ -1,5 +1,4 @@
-﻿using MarioLikePlatformerEngine.Core.Components;
-using MarioLikePlatformerEngine.Core.Components.Behavior;
+﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Scenes;
@@ -16,7 +15,6 @@ namespace MarioLikePlatformerEngine.Core
         private readonly EnemyEntityConfig _config;
         private readonly IBehavior _behavior;
 
-        //private float _direction = 1;
         private TileMap _map;
 
         public EnemyEntity(Vector2 position, int width, int height)
@@ -40,24 +38,11 @@ namespace MarioLikePlatformerEngine.Core
             _whitePixel = resources.WhitePixel;
         }
 
-        //public override void Update(float dt)
-        //{
-        //    var intent = _behavior.GetIntent(this, _map, dt);
-
-        //    _movement.Apply(this, intent.DirectionX, Contacts.IsGrounded, dt);
-        //}
-        //public override void Update(float dt)
-        //{
-        //    var intent = _behavior.GetIntent(this, _map, dt);
-
-        //    _movement.Apply(this, intent.DirectionX, intent.DirectionY, false, dt);
-        //}
-
         public override void Update(float dt)
         {
             var intent = _behavior.GetIntent(this, _map, dt);
 
-            _movement.Apply(this, intent.DirectionX, intent.DirectionY, false, dt);
+            _movement.Apply(this, intent, false, dt);
         }
 
 
