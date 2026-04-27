@@ -32,32 +32,34 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Initialize()
         {
-            _map = new TileMap(50, 20);
+            //_map = new TileMap(50, 20);
 
-            // левая стена
-            for (int y = 0; y < _map.HeightInTiles; y++)
-                _map.SetSolid(0, y);
+            //// левая стена
+            //for (int y = 0; y < _map.HeightInTiles; y++)
+            //    _map.SetSolid(0, y);
 
-            // правая стена
-            for (int y = 0; y < _map.HeightInTiles; y++)
-                _map.SetSolid(_map.WidthInTiles - 1, y);
+            //// правая стена
+            //for (int y = 0; y < _map.HeightInTiles; y++)
+            //    _map.SetSolid(_map.WidthInTiles - 1, y);
 
-            // потолок
-            for (int x = 0; x < _map.WidthInTiles; x++)
-                _map.SetSolid(x, 0);
+            //// потолок
+            //for (int x = 0; x < _map.WidthInTiles; x++)
+            //    _map.SetSolid(x, 0);
 
-            // земля
-            for (int x = 2; x < 50; x++)
-                _map.SetSolid(x, 19);
+            //// земля
+            //for (int x = 2; x < 50; x++)
+            //    _map.SetSolid(x, 19);
 
-            // небольшие платформы
-            for (int x = 5; x < 10; x++)
-                _map.SetSolid(x, 15);
+            //// небольшие платформы
+            //for (int x = 5; x < 10; x++)
+            //    _map.SetSolid(x, 15);
 
-            for (int x = 20; x < 25; x++)
-                _map.SetSolid(x, 12);
+            //for (int x = 20; x < 25; x++)
+            //    _map.SetSolid(x, 12);
 
-            _map.SetSolid(20, 18);
+            //_map.SetSolid(20, 18);
+
+            _map = LevelBuilder.CreateLevel();
 
             _player = new PlayerEntity(new Vector2(100, 588), 20, 20);
             AddEntity(_player);

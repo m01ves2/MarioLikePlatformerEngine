@@ -44,7 +44,7 @@ namespace MarioLikePlatformerEngine.Core
             spriteBatch.Draw(
                 _whitePixel,
                 new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-                Color.Yellow
+                Color.Black
             );
         }
     }
