@@ -63,8 +63,8 @@ namespace MarioLikePlatformerEngine.Scenes
         }
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)
         {
-            for (int y = 0; y < 20; y++) {
-                for (int x = 0; x < 50; x++) {
+            for (int y = 0; y < _map.Height; y++) {
+                for (int x = 0; x < _map.Width; x++) {
                     if (_map.IsSolid(x, y)) {
                         sb.Draw(pixel,
                             new Rectangle(

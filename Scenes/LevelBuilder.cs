@@ -10,34 +10,35 @@ namespace MarioLikePlatformerEngine.Scenes
     {
         public static LevelData CreateLevel()
         {
-            var map = new TileMap(50, 20);
+            var level = new[]
+            {
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",   
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X..............................................................................X",
+            "X...................................................................F..........X",
+            "X..............................................................................X",
+            "X.........................................................F....XXXX............X",
+            "X................................E.............................................X",
+            "X..............................XXXXX..................XXXX...............X.....X",
+            "X......................................XXXXX.....E...............XXX....XX.....X",
+            "X.......XXX................XXX..................XXXXX.................EXXX.....X",
+            "X.....................................................................XXXX.....X",
+            "XP.......E....X..............E........X..E.E..X....E...X....E..E.....XXXXX...G.X",
+            "XXXXXXXXXXXXXXXXX.XXXX..XXXXXXXX..XXXXXXXXXXXXXXXXXXX.XXXXXXXXXXX..XXXXXXXXXXXXX",
+        };
+
+            int tileSize = 32;
+            var map = new TileMap(level[0].Length, level.Length, tileSize);
             PlayerEntity playerStart = null;
             var enemies = new List<Entity>();
             Rectangle goal = Rectangle.Empty;
-
-            var level = new[]
-            {
-            "X................................................X",
-            "X................................................X",
-            "X.............XXX................................X",
-            "X........................F.......................X",
-            "X......XXX.......................XXXX............X",
-            "X..............XXXX..............................X",
-            "X......................................X.........X",
-            "X...................xx...........................X",
-            "X........XXX.................XXX.........X.......X",
-            "X..................E.............................X",
-            "X....F............XXXX.....................X.....X",
-            "X................................................X",
-            "X...................XXX.........XXX..............X",
-            "X.........XXXX............................F......X",
-            "X.....................E..........................X",
-            "X....................XXXXXX......................X",
-            "X...XXXX..............................X..........X",
-            "X...........................X........XX..........X",
-            "X.P................E.......XX.......XXX........G.X",
-            "XXXXXXXXX...XXXXXXXXXXXXXXXXXXXX...XXXXXXXXXXXXXXX",
-        };
 
             for (int y = 0; y < level.Length; y++) {
                 for (int x = 0; x < level[y].Length; x++) {
@@ -51,24 +52,24 @@ namespace MarioLikePlatformerEngine.Scenes
                         case 'P':
                             var widthP = 20;
                             var heightP = 20;
-                            playerStart = new PlayerEntity(new Vector2(x * 32 + (32 - widthP), y * 32 + +(32 - widthP)), widthP, heightP); //new Vector2(x * 32, y * 32);
+                            playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - widthP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
                             break;
 
                         case 'E':
                             var widthE = 20;
                             var heightE = 20;
-                            enemies.Add(new EnemyEntity(new Vector2(x * 32 + (32 - widthE), y * 32 + (32 - heightE)), widthE, heightE));
+                            enemies.Add(new EnemyEntity(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE));
                             break;
 
                         case 'F':
                             var widthF = 20;
                             var heightF = 20;
-                            var behavior = new FlyingBehavior(x * 32, x * 32 + 128, y * 32, y * 32 + 128);
-                            enemies.Add(new FlyingEnemy(new Vector2(x * 32 + (32 - widthF), y * 32 + (32 - widthF) ), behavior, widthF, heightF));
+                            var behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
+                            enemies.Add(new FlyingEnemy(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
                             break;
 
                         case 'G':
-                            goal = new Rectangle(x * 32, y * 32, 32, 32);
+                            goal = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
                             break;
                     }
                 }
