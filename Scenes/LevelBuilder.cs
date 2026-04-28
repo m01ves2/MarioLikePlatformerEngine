@@ -23,14 +23,14 @@ namespace MarioLikePlatformerEngine.Scenes
             "S..............................................................................S",
             "S..............................................................................S",
             "S...................................................................F..........S",
-            "S..............................................................................S",
-            "S.........................................................F....GGGG............S",
-            "S................................E.............................................S",
-            "S..............................GGGGG..................GGGG...............S.....S",
-            "S......................................GGGGG.....E...............GGG....SS.....S",
+            "S................................................................C......C......S",
+            "S..........................................C..............F....GGGG............S",
+            "S................................E........C....................................S",
+            "S..............................GGGGG.....C............GGGG...............S.....S",
+            "S...........................C..........GGGGG.....E...............GGG....SS.....S",
             "S.......GGG................GGG.................GGGGG..................ESSS.....S",
-            "S.....................................................................SSSS.....S",
-            "SP.......E....X..............E........X..E.E..X....E...X....E..E.....SSSSS...W.S",
+            "S.............................................C.......................SSSS.....S",
+            "SP.......E....X..............E........X..E.E..X....E...X..C.E..E....CSSSSS...W.S",
             "XXXXXXXXXXXXXXXXX.XXXX..XXXXXXXX..XXXXXXXXXXXXXXXXXXX.XXXXXXXXXXX..XXXXXXXXXXXXX",
         };
 
@@ -38,6 +38,7 @@ namespace MarioLikePlatformerEngine.Scenes
             var map = new TileMap(level[0].Length, level.Length, tileSize);
             PlayerEntity playerStart = null;
             var enemies = new List<Entity>();
+            var coins = new List<Entity>();
             Rectangle goal = Rectangle.Empty;
 
             for (int y = 0; y < level.Length; y++) {
@@ -55,10 +56,16 @@ namespace MarioLikePlatformerEngine.Scenes
                             map.SetSolid(x, y, TileType.Grass);
                             break;
 
+                        case 'C': //coin
+                            var widthC = 20;
+                            var heightC = 20;
+                            coins.Add(new CoinEntity(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + +(tileSize - heightC)), widthC, heightC, EntityTag.Coin));
+                            break;
+
                         case 'P':
                             var widthP = 20;
                             var heightP = 20;
-                            playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - widthP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
+                            playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
                             break;
 
                         case 'E':
@@ -71,7 +78,7 @@ namespace MarioLikePlatformerEngine.Scenes
                             var widthF = 20;
                             var heightF = 20;
                             var behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
-                            enemies.Add(new FlyingEnemy(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
+                            enemies.Add(new FlyingEnemyEntity(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
                             break;
 
                         case 'W':
@@ -82,7 +89,7 @@ namespace MarioLikePlatformerEngine.Scenes
             }
 
 
-            return new LevelData() { Map = map, PlayerStart = playerStart, Enemies = enemies, Goal = goal };
+            return new LevelData() { Map = map, PlayerStart = playerStart, Enemies = enemies, Coins = coins,  Goal = goal };
         }
     }
 }

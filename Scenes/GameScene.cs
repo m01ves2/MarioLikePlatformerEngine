@@ -1,6 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Systems.Collisions;
+using MarioLikePlatformerEngine.Systems.GameplayRules;
 using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
@@ -26,6 +27,7 @@ namespace MarioLikePlatformerEngine.Scenes
             //_rules.AddRule(new PlayerGroundRule());
             _rules.AddRule(new PlayerEnemyStompRule());
             _rules.AddRule(new PlayerEnemyDamageRule());
+            _rules.AddRule(new PlayerCoinCollectRule());
 
             _physics = new PhysicsSystem();
         }
@@ -42,6 +44,11 @@ namespace MarioLikePlatformerEngine.Scenes
 
             for (int i = 0; i < entities.Count; i++) {
                 AddEntity(entities[i]);
+            }
+
+            var coins = data.Coins;
+            for (int i = 0; i < coins.Count; i++) {
+                AddEntity(coins[i]);
             }
 
             _context = new GameContext() { Map = _map, State = State };
@@ -65,17 +72,6 @@ namespace MarioLikePlatformerEngine.Scenes
         {
             for (int y = 0; y < _map.HeightInTiles; y++) {
                 for (int x = 0; x < _map.WidthInTiles; x++) {
-                    //if (_map.IsSolid(x, y)) {
-                    //    sb.Draw(pixel,
-                    //        new Rectangle(
-                    //            x * _map.TileSize,
-                    //            y * _map.TileSize,
-                    //            _map.TileSize,
-                    //            _map.TileSize
-                    //        ),
-                    //        Color.DarkGreen
-                    //    );
-                    //}
 
                     var tile = _map.GetTile(x, y);
                     switch (tile) {

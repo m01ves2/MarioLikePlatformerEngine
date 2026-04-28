@@ -7,14 +7,21 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
     {
         public bool Matches(CollisionEvent e)
         {
-            return     ((e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy) || 
-                        (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player)) &&
-                        (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right);
+            //return     ((e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy) || 
+            //            (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player)) &&
+            //            (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right);
+
+            return      (e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy)  &&
+                        (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right || e.Side == CollisionSide.Top);
         }
 
         public void Apply(CollisionEvent e)
         {
-            var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
+            //var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
+            //player.TakeDamage();
+
+            var player = e.A;
+            var enemy = e.B;
             player.TakeDamage();
         }
     }

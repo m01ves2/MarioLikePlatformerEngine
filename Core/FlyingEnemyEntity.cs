@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MarioLikePlatformerEngine.Core
 {
-    public class FlyingEnemy : Entity
+    public class FlyingEnemyEntity : Entity
     {
         private Texture2D _whitePixel;
         private readonly IMovement _movement;
         private readonly IBehavior _behavior;
         private TileMap _map;
 
-        public FlyingEnemy(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
+        public FlyingEnemyEntity(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
             : base(position, width, height, EntityTag.Enemy)
         {
             //_movement = new PhysicsMovement(800f, 150f, 0f, 1f);

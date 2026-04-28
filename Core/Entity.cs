@@ -9,7 +9,7 @@ namespace MarioLikePlatformerEngine.Core
     {
         Player,
         Enemy,
-        Ground
+        Coin
     }
     public class Entity
     {
@@ -31,12 +31,15 @@ namespace MarioLikePlatformerEngine.Core
             Tag = tag;
         }
 
-        public virtual void Update(float dt) {
+        public virtual void Update(float dt) 
+        {
         }
-        public virtual void Draw(SpriteBatch sb) { 
+        public virtual void Draw(SpriteBatch sb) 
+        { 
         }
 
-        public virtual void Load(GameResources resources) { 
+        public virtual void Load(GameResources resources) 
+        {
         }
 
         public virtual void TakeDamage()

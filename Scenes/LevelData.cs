@@ -10,6 +10,7 @@ namespace MarioLikePlatformerEngine.Scenes
         public TileMap Map;
         public PlayerEntity PlayerStart;
         public List<Entity> Enemies = new();
+        public List<Entity> Coins = new();
         public Rectangle Goal;
     }
 }
