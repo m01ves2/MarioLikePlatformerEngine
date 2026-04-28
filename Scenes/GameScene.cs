@@ -63,18 +63,55 @@ namespace MarioLikePlatformerEngine.Scenes
         }
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)
         {
-            for (int y = 0; y < _map.Height; y++) {
-                for (int x = 0; x < _map.Width; x++) {
-                    if (_map.IsSolid(x, y)) {
-                        sb.Draw(pixel,
-                            new Rectangle(
-                                x * _map.TileSize,
-                                y * _map.TileSize,
-                                _map.TileSize,
-                                _map.TileSize
-                            ),
-                            Color.DarkGreen
-                        );
+            for (int y = 0; y < _map.HeightInTiles; y++) {
+                for (int x = 0; x < _map.WidthInTiles; x++) {
+                    //if (_map.IsSolid(x, y)) {
+                    //    sb.Draw(pixel,
+                    //        new Rectangle(
+                    //            x * _map.TileSize,
+                    //            y * _map.TileSize,
+                    //            _map.TileSize,
+                    //            _map.TileSize
+                    //        ),
+                    //        Color.DarkGreen
+                    //    );
+                    //}
+
+                    var tile = _map.GetTile(x, y);
+                    switch (tile) {
+                        case TileType.Ground:
+                            sb.Draw(pixel,
+                                new Rectangle(
+                                    x * _map.TileSize,
+                                    y * _map.TileSize,
+                                    _map.TileSize,
+                                    _map.TileSize
+                                ),
+                                Color.SaddleBrown
+                            );
+                            break;
+                        case TileType.Grass:
+                            sb.Draw(pixel,
+                                new Rectangle(
+                                    x * _map.TileSize,
+                                    y * _map.TileSize,
+                                    _map.TileSize,
+                                    _map.TileSize
+                                ),
+                                Color.DarkGreen
+                            );
+                            break;
+                        case TileType.Stone:
+                            sb.Draw(pixel,
+                                new Rectangle(
+                                    x * _map.TileSize,
+                                    y * _map.TileSize,
+                                    _map.TileSize,
+                                    _map.TileSize
+                                ),
+                                Color.DarkGray
+                            );
+                            break;
                     }
                 }
             }
