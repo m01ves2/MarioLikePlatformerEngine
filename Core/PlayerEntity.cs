@@ -23,8 +23,6 @@ namespace MarioLikePlatformerEngine.Core
         private int _health = 1;
         public bool IsDead { get; private set; } = false;
 
-        public int Points { get; private set; } = 0;
-
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player)
         {
@@ -113,11 +111,6 @@ namespace MarioLikePlatformerEngine.Core
             if (IsDead) return;
 
             IsDead = true;
-        }
-
-        public void AddPoints(int dp)
-        {
-            Points += dp;
         }
     }
 }

@@ -11,13 +11,13 @@ namespace MarioLikePlatformerEngine.Systems.GameplayRules
             return (e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Coin);
         }
 
-        public void Apply(CollisionEvent e)
+        public void Apply(CollisionEvent e, GameContext ctx)
         {
-            var player = e.A as PlayerEntity;
+            var player = e.A;
             var coin = e.B;
 
-            player.AddPoints(100);
             coin.IsPendingDestroy = true;
+            ctx.Scores += 100;
         }
 
     }

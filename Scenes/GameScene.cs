@@ -13,7 +13,6 @@ namespace MarioLikePlatformerEngine.Scenes
 {
     public class GameScene : Scene
     {
-        public GameState State { get; private set; } = GameState.Playing;
         private GameContext _context;
 
         private CollisionRulesSystem _rules;
@@ -51,7 +50,10 @@ namespace MarioLikePlatformerEngine.Scenes
                 AddEntity(coins[i]);
             }
 
-            _context = new GameContext() { Map = _map, State = State };
+            _context = new GameContext() { Map = _map, 
+                State = GameState.Playing, 
+                Scores = 0, 
+                Command = GameCommand.None };
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -138,7 +140,7 @@ namespace MarioLikePlatformerEngine.Scenes
             List<CollisionEvent> events = new List<CollisionEvent>();
             _physics.Step(_entities, _map, dt, events);
 
-            _rules.Apply(events);
+            _rules.Apply(events, _context);
 
             _entities.RemoveAll(e => e.IsPendingDestroy);
 

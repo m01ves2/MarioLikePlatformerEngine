@@ -15,7 +15,7 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
                         (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right || e.Side == CollisionSide.Top);
         }
 
-        public void Apply(CollisionEvent e)
+        public void Apply(CollisionEvent e, GameContext c)
         {
             //var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
             //player.TakeDamage();

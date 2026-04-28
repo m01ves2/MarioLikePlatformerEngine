@@ -7,5 +7,6 @@ namespace MarioLikePlatformerEngine.Core
         public GameState State;
         public GameCommand Command = GameCommand.None;
         public TileMap Map;
+        public int Scores;
     }
 }

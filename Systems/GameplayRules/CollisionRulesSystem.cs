@@ -12,18 +12,18 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
             _rules.Add(rule);
         }
 
-        public void Apply(List<CollisionEvent> events)
+        public void Apply(List<CollisionEvent> events, GameContext ctx)
         {
             foreach (var e in events) {
-                Apply(e);
+                Apply(e, ctx);
             }
         }
 
-        public void Apply(CollisionEvent e)
+        public void Apply(CollisionEvent e, GameContext ctx)
         {
             foreach (var rule in _rules) {
                 if (rule.Matches(e))
-                    rule.Apply(e);
+                    rule.Apply(e, ctx);
             }
         }
     }

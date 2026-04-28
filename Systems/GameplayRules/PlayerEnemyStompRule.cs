@@ -12,7 +12,7 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
                    e.Side == CollisionSide.Bottom;
         }
 
-        public void Apply(CollisionEvent e)
+        public void Apply(CollisionEvent e, GameContext c)
         {
             var player = e.A;
             var enemy = e.B;
