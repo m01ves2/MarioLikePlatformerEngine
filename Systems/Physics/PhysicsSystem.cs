@@ -133,8 +133,16 @@ namespace MarioLikePlatformerEngine.Systems.Physics
                     other.Height
                 );
 
-                if (!selfBounds.Intersects(otherBounds))
-                    continue;
+
+                // 1. технический фильтр
+                if (self.Id >= other.Id) continue;//to avoid dublicate collisions (A,B) vs (B,A)
+                    
+
+                // 2. геймплейный фильтр
+                if (!CanCollideWith(self, other)) continue;
+
+                // 3. геометрия
+                if (!selfBounds.Intersects(otherBounds)) continue;
 
                 var side = DetectSide(selfBounds, otherBounds);
 
@@ -144,6 +152,8 @@ namespace MarioLikePlatformerEngine.Systems.Physics
                     B = other,
                     Side = side
                 });
+
+                if (self.IsTrigger || other.IsTrigger) continue;
 
                 // только реакция, без snap
                 if (side == CollisionSide.Left || side == CollisionSide.Right)
@@ -157,6 +167,14 @@ namespace MarioLikePlatformerEngine.Systems.Physics
                     state.Velocity.Y = 0;
                 }
             }
+        }
+
+        public bool CanCollideWith(Entity self, Entity other)
+        {
+            if (self.Tag == EntityTag.Enemy && other.Tag ==  EntityTag.Enemy)
+                return false;
+
+            return true;
         }
 
         private void BuildContacts(ref PhysicsState state, Entity self, TileMap map)

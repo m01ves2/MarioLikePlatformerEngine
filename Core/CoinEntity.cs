@@ -10,6 +10,7 @@ namespace MarioLikePlatformerEngine.Core
 
         public CoinEntity(Vector2 position, int width, int height, EntityTag tag) : base(position, width, height, tag)
         {
+            IsTrigger = true;
         }
 
         public override void Load(GameResources resources)

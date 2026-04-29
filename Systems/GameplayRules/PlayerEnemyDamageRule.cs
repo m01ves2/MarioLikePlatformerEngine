@@ -7,21 +7,19 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
     {
         public bool Matches(CollisionEvent e)
         {
-            //return     ((e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy) || 
-            //            (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player)) &&
-            //            (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right);
-
-            return      (e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy)  &&
-                        (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right || e.Side == CollisionSide.Top);
+            return ((e.A.Tag == EntityTag.Player && e.B.Tag == EntityTag.Enemy) ||
+                        (e.A.Tag == EntityTag.Enemy && e.B.Tag == EntityTag.Player)) &&
+                        (e.Side == CollisionSide.Left || e.Side == CollisionSide.Right || 
+                        (e.A.Tag == EntityTag.Player && e.Side == CollisionSide.Top) || //player hit by his top
+                        (e.B.Tag == EntityTag.Player && e.Side == CollisionSide.Bottom)); //player was hit to his bottom
         }
 
         public void Apply(CollisionEvent e, GameContext c)
         {
-            //var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
-            //player.TakeDamage();
+            var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
+            var enemy = e.A.Tag == EntityTag.Enemy ? e.A : e.B;
 
-            var player = e.A;
-            var enemy = e.B;
+
             player.TakeDamage();
         }
     }
