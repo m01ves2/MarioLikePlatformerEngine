@@ -100,10 +100,12 @@ namespace MarioLikePlatformerEngine.Core
 
         public override void TakeDamage()
         {
-            _health--; 
+            _health--;
 
-            if(_health <=0 )
+            if (_health <= 0) {
                 Kill();
+                _health = _config.Health;
+            }
         }
 
         public void Kill()

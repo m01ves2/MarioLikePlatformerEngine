@@ -15,5 +15,7 @@
 
         public float JumpBufferTime = 0.1f;
         public float CoyoteTime = 0.1f;
+
+        public int Health = 1;
     }
 }

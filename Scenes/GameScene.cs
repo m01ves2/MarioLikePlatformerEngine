@@ -53,7 +53,8 @@ namespace MarioLikePlatformerEngine.Scenes
             _context = new GameContext() { Map = _map, 
                 State = GameState.Playing, 
                 Scores = 0, 
-                Command = GameCommand.None };
+                Command = GameCommand.None,
+                Lives = 3};
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -182,7 +183,10 @@ namespace MarioLikePlatformerEngine.Scenes
                 _player.Kill();
             }
 
-            return _player.IsDead;
+            if (_player.IsDead)
+                _context.Lives--;
+
+            return _context.Lives <= 0;
         }
 
         private bool iskWin()
