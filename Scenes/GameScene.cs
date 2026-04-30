@@ -159,22 +159,7 @@ namespace MarioLikePlatformerEngine.Scenes
 
             _entities.RemoveAll(e => e.IsPendingDestroy);
 
-
-            var screenCenter = new Vector2(_resources.ScreenWidth / (2f * _resources.Scale), _resources.ScreenHeight / (2f*_resources.Scale));
-            screenCenter.Y *= 0.7f;
-            _camera.Position = _player.Position - screenCenter;
-
-            var viewWidth = _resources.ScreenWidth / _resources.Scale;
-            var viewHeight = _resources.ScreenHeight / _resources.Scale;
-
-            _camera.Position.X = MathHelper.Clamp(_camera.Position.X, 0, _map.Width - viewWidth);
-            _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - viewHeight);
-
-            //System.Diagnostics.Debug.WriteLine(_player.Position);
-            //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
-            //System.Diagnostics.Debug.WriteLine("Player: " + _player.Position);
-            //System.Diagnostics.Debug.WriteLine("Camera: " + _camera.Position);
-            //System.Diagnostics.Debug.WriteLine("Center: " + screenCenter);
+            UpdateCamera();
 
             if (_context.State == GameState.Dead) {
                 RestartLevel();
@@ -187,6 +172,24 @@ namespace MarioLikePlatformerEngine.Scenes
             if (iskWin()) {
                 _context.Command = GameCommand.Restart;
             }
+        }
+
+        public void UpdateCamera()
+        {
+
+            var screenCenter = new Vector2(_resources.ScreenWidth / (2f * _resources.Scale), _resources.ScreenHeight / (2f * _resources.Scale));
+            screenCenter.Y *= 0.7f;
+            _camera.Position = _player.Position - screenCenter;
+
+            var viewWidth = _resources.ScreenWidth / _resources.Scale;
+            var viewHeight = _resources.ScreenHeight / _resources.Scale;
+
+            _camera.Position.X = MathHelper.Clamp(_camera.Position.X, 0, _map.Width - viewWidth);
+            _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - viewHeight);
+
+            //System.Diagnostics.Debug.WriteLine(_player.Position);
+            //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
+
         }
 
         public void RestartLevel()
