@@ -1,11 +1,11 @@
 ﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
-using MarioLikePlatformerEngine.Scenes;
+using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MarioLikePlatformerEngine.Core
+namespace MarioLikePlatformerEngine.Core.Entities
 {
     public class FlyingEnemyEntity : Entity
     {
@@ -15,7 +15,7 @@ namespace MarioLikePlatformerEngine.Core
         private TileMap _map;
 
         public FlyingEnemyEntity(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
-            : base(position, width, height, EntityTag.Enemy)
+            : base(position, width, height, EntityTag.Enemy, EntityType.Paratroopa)
         {
             //_movement = new PhysicsMovement(800f, 150f, 0f, 1f);
             _movement = new SimpleMovement();
@@ -39,12 +39,12 @@ namespace MarioLikePlatformerEngine.Core
             _map = map;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
             spriteBatch.Draw(
-                _whitePixel,
+                texture,
                 new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-                Color.Black
+                Color.White
             );
         }
     }

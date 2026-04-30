@@ -1,5 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Components.Behavior;
+using MarioLikePlatformerEngine.Core.Entities;
+using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using MarioLikePlatformerEngine.Systems.GameplayRules;
 using MarioLikePlatformerEngine.Systems.Physics;
@@ -7,6 +9,8 @@ using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MarioLikePlatformerEngine.Scenes
@@ -20,7 +24,11 @@ namespace MarioLikePlatformerEngine.Scenes
         private TileMap _map;
         private PlayerEntity _player;
         private Rectangle _goal;
-        public GameScene()
+
+        private TextureProvider _textures;
+        private GameSettings _gameSettings;
+
+        public GameScene(TextureProvider textures, GameSettings gameSettings)
         {
             _rules = new CollisionRulesSystem();
             //_rules.AddRule(new PlayerGroundRule());
@@ -29,7 +37,25 @@ namespace MarioLikePlatformerEngine.Scenes
             _rules.AddRule(new PlayerCoinCollectRule());
 
             _physics = new PhysicsSystem();
+
+            _gameSettings = gameSettings;
+            _textures = textures;
+
+            //StartGame();
         }
+
+        //private void LoadGameResources(GameResources gameResources)
+        //{
+        //    _font = gameResources.Font;
+        //    _screenHeight = gameResources.ScreenHeight;
+        //    _screenWidth = gameResources.ScreenWidth;
+        //    _pixel = gameResources._whitePixel;
+        //}
+
+        //private void LoadGameSettings(GameSettings gameSettings)
+        //{
+        //    _levelPath = gameSettings.SelectedLevel;
+        //}
 
         public override void Initialize()
         {
@@ -68,50 +94,29 @@ namespace MarioLikePlatformerEngine.Scenes
 
         protected void DrawEntities(SpriteBatch spriteBatch)
         {
-            foreach (var entity in _entities)
-                entity.Draw(spriteBatch);
+            //spriteBatch.DrawString(_font, "Score: 100", new Vector2(10, 10), Color.White);
+            foreach (var entity in _entities) {
+                var texture = _textures.Get(entity);
+                entity.Draw(spriteBatch, texture);
+            }
         }
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)
         {
             for (int y = 0; y < _map.HeightInTiles; y++) {
                 for (int x = 0; x < _map.WidthInTiles; x++) {
-
                     var tile = _map.GetTile(x, y);
-                    switch (tile) {
-                        case TileType.Ground:
-                            sb.Draw(pixel,
-                                new Rectangle(
-                                    x * _map.TileSize,
-                                    y * _map.TileSize,
-                                    _map.TileSize,
-                                    _map.TileSize
-                                ),
-                                Color.SaddleBrown
-                            );
-                            break;
-                        case TileType.Grass:
-                            sb.Draw(pixel,
-                                new Rectangle(
-                                    x * _map.TileSize,
-                                    y * _map.TileSize,
-                                    _map.TileSize,
-                                    _map.TileSize
-                                ),
-                                Color.DarkGreen
-                            );
-                            break;
-                        case TileType.Stone:
-                            sb.Draw(pixel,
-                                new Rectangle(
-                                    x * _map.TileSize,
-                                    y * _map.TileSize,
-                                    _map.TileSize,
-                                    _map.TileSize
-                                ),
-                                Color.DarkGray
-                            );
-                            break;
-                    }
+                    if (tile == TileType.Empty) continue;
+
+                    var texture = _textures.Get(tile);
+                    sb.Draw(texture,
+                              new Rectangle(
+                                  x * _map.TileSize,
+                                  y * _map.TileSize,
+                                  _map.TileSize,
+                                  _map.TileSize
+                              ),
+                              Color.White
+                          );
                 }
             }
         }

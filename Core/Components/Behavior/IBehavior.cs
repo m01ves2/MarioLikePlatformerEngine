@@ -1,4 +1,5 @@
-﻿using MarioLikePlatformerEngine.World;
+﻿using MarioLikePlatformerEngine.Core.Entities;
+using MarioLikePlatformerEngine.World;
 
 namespace MarioLikePlatformerEngine.Core.Components.Behavior
 {

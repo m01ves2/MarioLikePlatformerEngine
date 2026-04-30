@@ -1,5 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Components;
+using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using System;

@@ -1,4 +1,5 @@
 ﻿using MarioLikePlatformerEngine.Core;
+using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -41,7 +42,7 @@ namespace MarioLikePlatformerEngine.Scenes
         {
             var type = _current.GetType();
 
-            _current = (Scene)Activator.CreateInstance(type);
+              _current = (Scene)Activator.CreateInstance(type);
 
             _current.Load(_resources);
             _current.Initialize();

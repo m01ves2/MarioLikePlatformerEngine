@@ -2,12 +2,12 @@
 using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
-using MarioLikePlatformerEngine.Scenes;
+using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MarioLikePlatformerEngine.Core
+namespace MarioLikePlatformerEngine.Core.Entities
 {
     public class EnemyEntity : Entity
     {
@@ -19,7 +19,7 @@ namespace MarioLikePlatformerEngine.Core
         private TileMap _map;
 
         public EnemyEntity(Vector2 position, int width, int height)
-            : base(position, width, height, EntityTag.Enemy)
+            : base(position, width, height, EntityTag.Enemy, EntityType.Goomba)
         {
             _config = new EnemyEntityConfig();
 
@@ -52,12 +52,12 @@ namespace MarioLikePlatformerEngine.Core
             _map = map;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
             spriteBatch.Draw(
-                _whitePixel,
+                texture,
                 new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-                Color.Red // чтобы отличался от игрока
+                Color.White // чтобы отличался от игрока
             );
         }
     }

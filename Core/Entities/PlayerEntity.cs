@@ -2,13 +2,13 @@
 using MarioLikePlatformerEngine.Core.Components.Movement;
 using MarioLikePlatformerEngine.Core.Config;
 using MarioLikePlatformerEngine.Inputs;
-using MarioLikePlatformerEngine.Scenes;
+using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace MarioLikePlatformerEngine.Core
+namespace MarioLikePlatformerEngine.Core.Entities
 {
     public class PlayerEntity : Entity
     {
@@ -24,7 +24,7 @@ namespace MarioLikePlatformerEngine.Core
         public bool IsDead { get; private set; } = false;
 
         public PlayerEntity(Vector2 position, int width, int height)
-            : base(position, width, height, EntityTag.Player)
+            : base(position, width, height, EntityTag.Player, EntityType.Mario)
         {
             _config = new PlayerEntityConfig();
 
@@ -80,15 +80,10 @@ namespace MarioLikePlatformerEngine.Core
             _intent.JumpReleased = Input.IsKeyReleased(Keys.Space);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
-            //spriteBatch.Draw(
-            //    _whitePixel,
-            //    new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-            //    Color.White
-            //);
             spriteBatch.Draw(
-                _whitePixel,
+                texture,
                 new Rectangle(
                     (int)MathF.Round(Position.X),
                     (int)MathF.Round(Position.Y),

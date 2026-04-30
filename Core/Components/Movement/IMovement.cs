@@ -1,4 +1,6 @@
-﻿namespace MarioLikePlatformerEngine.Core.Components.Movement
+﻿using MarioLikePlatformerEngine.Core.Entities;
+
+namespace MarioLikePlatformerEngine.Core.Components.Movement
 {
     public interface IMovement
     {

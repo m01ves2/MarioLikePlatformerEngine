@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MarioLikePlatformerEngine.Core.Entities;
+using Microsoft.Xna.Framework;
 
 namespace MarioLikePlatformerEngine.Core.Components.Movement
 {

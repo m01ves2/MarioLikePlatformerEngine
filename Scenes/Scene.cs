@@ -1,4 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core;
+using MarioLikePlatformerEngine.Core.Entities;
+using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 

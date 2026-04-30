@@ -1,4 +1,5 @@
 ﻿using MarioLikePlatformerEngine.Core;
+using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using static MarioLikePlatformerEngine.Systems.CollisionMath;
 

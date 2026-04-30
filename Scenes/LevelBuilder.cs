@@ -1,5 +1,5 @@
-﻿using MarioLikePlatformerEngine.Core;
-using MarioLikePlatformerEngine.Core.Components.Behavior;
+﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
+using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -53,18 +53,18 @@ namespace MarioLikePlatformerEngine.Scenes
                             map.SetSolid(x, y, TileType.Stone);
                             break;
                         case 'G': //herb, grass
-                            map.SetSolid(x, y, TileType.Grass);
+                            map.SetSolid(x, y, TileType.Brick);
                             break;
 
                         case 'C': //coin
                             var widthC = 20;
                             var heightC = 20;
-                            coins.Add(new CoinEntity(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + +(tileSize - heightC)), widthC, heightC, EntityTag.Coin));
+                            coins.Add(new CoinEntity(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + +(tileSize - heightC)), widthC, heightC));
                             break;
 
                         case 'P':
                             var widthP = 20;
-                            var heightP = 20;
+                            var heightP = 30;
                             playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
                             break;
 
@@ -75,8 +75,8 @@ namespace MarioLikePlatformerEngine.Scenes
                             break;
 
                         case 'F':
-                            var widthF = 20;
-                            var heightF = 20;
+                            var widthF = 32;
+                            var heightF = 46;
                             var behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
                             enemies.Add(new FlyingEnemyEntity(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
                             break;

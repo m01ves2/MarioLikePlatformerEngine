@@ -1,8 +1,10 @@
 ﻿using MarioLikePlatformerEngine.Inputs;
+using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace MarioLikePlatformerEngine;
 
@@ -14,6 +16,11 @@ public class Game1 : Game
 
     private int _screenWidth = 800;
     private int _screenHeight = 600;
+
+    private GameAssets _assets;
+    private GameResources _resources;
+    private GameSettings _gameSettings;
+    private TextureProvider _textureProvider;
 
     private SceneManager _sceneManager;
 
@@ -28,6 +35,9 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = _screenHeight;
         _graphics.ApplyChanges();
 
+        _assets = new GameAssets();
+        _resources = new GameResources();
+        _gameSettings = new GameSettings();
     }
 
     protected override void Initialize()
@@ -53,8 +63,21 @@ public class Game1 : Game
             ScreenWidth = _screenWidth,
         };
 
+        _assets.Load(Content);
+        _resources.Load(Content, _whitePixel, _screenWidth, _screenHeight);
         _sceneManager = new SceneManager(resources);
-        _sceneManager.SetScene(new GameScene());
+
+        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures);
+        _sceneManager.SetScene(new GameScene(_textureProvider, _gameSettings));
+
+        StartMusic();
+    }
+
+    private void StartMusic()
+    {
+        MediaPlayer.IsRepeating = true;
+        MediaPlayer.Volume = 0.1f;
+        MediaPlayer.Play(_resources.Music);
     }
 
     protected override void Update(GameTime gameTime)

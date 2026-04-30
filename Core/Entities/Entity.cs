@@ -1,9 +1,9 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
-using MarioLikePlatformerEngine.Scenes;
+using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MarioLikePlatformerEngine.Core
+namespace MarioLikePlatformerEngine.Core.Entities
 {
     public enum EntityTag //роль в взаимодействии
     {
@@ -11,6 +11,19 @@ namespace MarioLikePlatformerEngine.Core
         Enemy,
         Coin
     }
+
+    public enum EntityType
+    {
+        Mario,
+
+        Goomba,
+        Paratroopa,
+        PiranhaPlant,
+        Bowser,
+
+        Coin
+    }
+
     public abstract class Entity
     {
         private static int _nextId = 0;
@@ -26,22 +39,25 @@ namespace MarioLikePlatformerEngine.Core
         public bool IsTrigger = false;
         public Rectangle Bounds => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
         public EntityTag Tag { get; private set; }
+        public EntityType Type { get; private set; }
 
         public bool IsPendingDestroy = false;
         public Contacts Contacts { get; set; } = new Contacts();
 
-        protected Entity(Vector2 position, int width, int height,  EntityTag tag) { 
+        protected Entity(Vector2 position, int width, int height,  EntityTag tag, EntityType type) { 
             Position = position;
             Width = width;
             Height = height;
             Tag = tag;
+            Type = type;
+
             Id = _nextId++;
         }
 
         public virtual void Update(float dt) 
         {
         }
-        public abstract void Draw(SpriteBatch sb);
+        public abstract void Draw(SpriteBatch sb, Texture2D texture);
         
         public virtual void Load(GameResources resources) 
         {

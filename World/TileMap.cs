@@ -2,10 +2,11 @@
 {
     public enum TileType
     {
-        Empty = 0,
-        Ground = 1,
-        Grass = 2,
-        Stone = 3
+        Empty,
+        Ground,
+        Brick,
+        Stone,
+        QBlock,
     }
 
     public class TileMap

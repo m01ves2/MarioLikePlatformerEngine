@@ -1,4 +1,5 @@
-﻿using static MarioLikePlatformerEngine.Systems.CollisionMath;
+﻿using MarioLikePlatformerEngine.Core.Entities;
+using static MarioLikePlatformerEngine.Systems.CollisionMath;
 
 namespace MarioLikePlatformerEngine.Core
 {
