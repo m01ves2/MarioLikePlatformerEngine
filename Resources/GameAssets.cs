@@ -13,6 +13,8 @@ namespace MarioLikePlatformerEngine.Resources
         public Dictionary<TileType, Texture2D> TileTextures;
         public Texture2D BackgroundTreesTexture;
         public Texture2D BackgroundSkyTexture;
+        public Texture2D GoalTexture;
+        public Texture2D CastleTexture;
 
         public void Load(ContentManager content)
         {
@@ -32,61 +34,12 @@ namespace MarioLikePlatformerEngine.Resources
                 { TileType.Stone, content.Load<Texture2D>("stone") },
                 { TileType.Brick, content.Load<Texture2D>("brick") },
                 { TileType.QBlock, content.Load<Texture2D>("qblock") },
-
-        //    CastleTexture = content.Load<Texture2D>("castle");
-        //    PrincessTexture = content.Load<Texture2D>("princess");
             };
 
             BackgroundTreesTexture = content.Load<Texture2D>("background_trees");
             BackgroundSkyTexture = content.Load<Texture2D>("background_sky");
+            GoalTexture = content.Load<Texture2D>("princess");
+            CastleTexture = content.Load<Texture2D>("castle");
         }
-
-
-        //public Texture2D MarioTexture;
-        //public Texture2D GoombaTexture; //бегает
-        //public Texture2D Paratroopa; //летает
-        ////public Texture2D Bowser; //Boss
-        ////public Texture2D PiranhaPlant; //plant
-        //public Texture2D CoinTexture;
-
-        //public Texture2D GroundTexture;
-        //public Texture2D StoneTexture;
-        //public Texture2D BrickTexture;
-        //public Texture2D QBlockTexture;
-        //public Texture2D PipeTexture;
-
-        //public Texture2D BackgroundTexture;
-        //public Texture2D CastleTexture;
-        //public Texture2D PrincessTexture;
-
-        ////public SoundEffect HitSound;
-        ////public SoundEffect BrickSound;
-        ////public SoundEffect LoseSound;
-        ////public SoundEffect JumpSound;
-
-        //public void Load(ContentManager content)
-        //{
-        //    MarioTexture = content.Load<Texture2D>("mario");
-        //    GoombaTexture = content.Load<Texture2D>("goomba");
-        //    Paratroopa = content.Load<Texture2D>("paratroopa");
-        //    CoinTexture = content.Load<Texture2D>("coin");
-
-        //    GroundTexture = content.Load<Texture2D>("ground");
-        //    StoneTexture = content.Load<Texture2D>("stone");
-        //    BrickTexture = content.Load<Texture2D>("brick");
-        //    QBlockTexture = content.Load<Texture2D>("qblock");
-        //    PipeTexture = content.Load<Texture2D>("pipe");
-
-        //    BackgroundTexture = content.Load<Texture2D>("background");
-        //    CastleTexture = content.Load<Texture2D>("castle");
-        //    PrincessTexture = content.Load<Texture2D>("princess");
-
-
-
-        //    //HitSound = content.Load<SoundEffect>("hitSound");
-        //    //BrickSound = content.Load<SoundEffect>("brickSound");
-        //    //LoseSound = content.Load<SoundEffect>("loseSound");
-
-        //}
     }
 }

@@ -82,7 +82,9 @@ namespace MarioLikePlatformerEngine.Scenes
                             break;
 
                         case 'W':
-                            goal = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
+                            var widthW = 20;
+                            var heightW = 30;
+                            goal = new Rectangle(x * tileSize, y * tileSize, widthW, heightW);
                             break;
                     }
                 }

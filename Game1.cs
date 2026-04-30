@@ -59,7 +59,13 @@ public class Game1 : Game
 
         _assets.Load(Content);
         _resources.Load(Content, whitePixel, _screenWidth, _screenHeight);
-        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures, _assets.BackgroundTreesTexture, _assets.BackgroundSkyTexture);
+        _textureProvider = new TextureProvider(
+            _assets.EntityTextures, 
+            _assets.TileTextures, 
+            _assets.BackgroundTreesTexture, 
+            _assets.BackgroundSkyTexture, 
+            _assets.GoalTexture, 
+            _assets.CastleTexture);
         
         _sceneManager = new SceneManager(_resources, _textureProvider, _gameSettings);
         _sceneManager.SetScene(new GameScene(_textureProvider, _gameSettings));

@@ -83,24 +83,32 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            DrawUI(spriteBatch);
+            DrawWorld(spriteBatch);
+        }
+
+        private void DrawUI(SpriteBatch spriteBatch)
+        {
             spriteBatch.Begin();
-            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0, _resources.ScreenWidth, _resources.ScreenHeight), Color.White);
-            spriteBatch.DrawString(_resources.Font, $"Score: {_context.Scores}", new Vector2(50, _map.Height - _resources.ScreenHeight), Color.White);
+
+            spriteBatch.DrawString(
+                _resources.Font,
+                $"Score: {_context.Scores}",
+                new Vector2(50, 20),
+                Color.White
+            );
+
             spriteBatch.End();
-
-
+        }
+        private void DrawWorld(SpriteBatch spriteBatch)
+        {
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(_resources.Scale, _resources.ScreenWidth, _resources.ScreenHeight));
 
-            //var bkgroundWidth = _resources.ScreenWidth;
-            //var bkgroundHeight = _resources.ScreenHeight - _map.TileSize; 
-
-            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0 , _resources.ScreenWidth, 640 - _map.TileSize), Color.White);
-
-            DrawBackground(spriteBatch);
-            
+            DrawBackground(spriteBatch); // деревья, замок
             DrawTileMap(spriteBatch, _resources.WhitePixel);
             DrawEntities(spriteBatch);
             DrawGoal(spriteBatch);
+
             spriteBatch.End();
         }
 
@@ -108,38 +116,32 @@ namespace MarioLikePlatformerEngine.Scenes
         {
             DrawBackgroundSky(spriteBatch);
             DrawBackgroundTrees(spriteBatch);
+            DrawBackGroundCastle(spriteBatch);
         }
-
         private void DrawBackgroundSky(SpriteBatch spriteBatch)
         {
-            float parallax = 0.5f;
-            float offsetX = _camera.Position.X * parallax;
-
             var texture = _textures.GetBackgroundSky();
 
-            float scale = _resources.Scale;
-            float viewWidth = _resources.ScreenWidth / scale;
-            int startX = (int)_camera.Position.X;
-            int endX = (int)(_camera.Position.X + viewWidth);
+            float parallax = 0.25f;
 
-            //int y = _map.Height - texture.Height - _resources.ScreenHeight/2;
-            //int y = (int)(_map.Height * 0.5f);
-            var y = 400f;
+            float screenWidth = _resources.ScreenWidth;
+            float screenHeight = _resources.ScreenHeight;
 
-            //for (int x = startX; x < _map.Width; x += texture.Width) {
-            //    spriteBatch.Draw(texture, new Vector2(x - offsetX, y), Color.White);
-            //}
+            float y = screenHeight * 0.5f;
 
-            for (int x = startX; x < endX + texture.Width; x += texture.Width)
-                spriteBatch.Draw(texture, new Vector2(x - offsetX, y), Color.White);
+            float cameraX = _camera.Position.X * parallax;
 
+            // старт всегда выравниваем по сетке
+            //float startX = MathF.Floor(cameraX / texture.Width) * texture.Width - texture.Width;
+            var startX = 0;
+
+            //for (float x = startX; x < cameraX + screenWidth + texture.Width; x += texture.Width) {
+            for (float x = startX; x < _map.Width; x += texture.Width) {
+                spriteBatch.Draw(texture, new Vector2(x - cameraX, y), Color.White);
+            }
         }
-
         private void DrawBackgroundTrees(SpriteBatch spriteBatch)
         {
-            //float parallax = 0.5f;
-            //float offsetX = _camera.Position.X * parallax;
-
             var groundLevel = _map.Height;
             var texture = _textures.GetBackgroundTrees();
             var textureWidth = texture.Width;
@@ -147,15 +149,23 @@ namespace MarioLikePlatformerEngine.Scenes
 
             int y = groundLevel - textureHeight - _map.TileSize;
 
-            //float scale = _resources.Scale;
-            //float viewWidth = _resources.ScreenWidth / scale;
-            //float startX = _camera.Position.X;
-            //float endX = _camera.Position.X + viewWidth;
-
             for (int x = 0; x < _map.Width; x += textureWidth) {
                 spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             }
         }
+        public void DrawBackGroundCastle(SpriteBatch spriteBatch)
+        {
+            var castleTexture = _textures.GetCastle();
+            spriteBatch.Draw(
+                castleTexture,
+                new Rectangle(
+                    _map.Width - castleTexture.Width - _map.TileSize,
+                    _map.Height - castleTexture.Height - _map.TileSize,
+                    castleTexture.Width, castleTexture.Height),
+                Color.White
+            );
+        }
+
 
         private void DrawEntities(SpriteBatch spriteBatch)
         {
@@ -185,11 +195,10 @@ namespace MarioLikePlatformerEngine.Scenes
                 }
             }
         }
-
         public void DrawGoal(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                _resources.WhitePixel,
+                _textures.GetGoal(),
                 _goal,
                 Color.Gold
             );
@@ -231,8 +240,8 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public void UpdateCamera()
         {
-
             var screenCenter = new Vector2(_resources.ScreenWidth / (2f * _resources.Scale), _resources.ScreenHeight / (2f * _resources.Scale));
+
             screenCenter.Y *= 0.7f;
             _camera.Position = _player.Position - screenCenter;
 
