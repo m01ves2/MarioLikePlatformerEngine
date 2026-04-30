@@ -11,6 +11,7 @@ namespace MarioLikePlatformerEngine.Resources
         public Texture2D WhitePixel;
         public int ScreenWidth;
         public int ScreenHeight;
+        public float Scale = 1.5f;
 
         public void Load(ContentManager Content, Texture2D whitePixel, int screenWidth, int screenHeight)
         {

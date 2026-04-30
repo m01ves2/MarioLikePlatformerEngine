@@ -4,8 +4,8 @@
     {
         // Movement
         public float MoveAcceleration = 1500f;
-        public float MaxSpeed = 200f;
-        public float Friction = 500f;
+        public float MaxSpeed = 150f;
+        public float Friction = 300f;
         public float AirControl = 0.5f;
 
         // Gravity / Jump

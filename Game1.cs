@@ -67,7 +67,7 @@ public class Game1 : Game
         _resources.Load(Content, _whitePixel, _screenWidth, _screenHeight);
         _sceneManager = new SceneManager(resources);
 
-        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures);
+        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures, _assets.BackGroundTexture);
         _sceneManager.SetScene(new GameScene(_textureProvider, _gameSettings));
 
         StartMusic();

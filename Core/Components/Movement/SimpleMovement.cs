@@ -23,8 +23,8 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
     {
         public void Apply(Entity e, MovementIntent intent, bool grounded, float dt)
         {
-            e.Velocity.X = intent.DirectionX * 100f;
-            e.Velocity.Y = intent.DirectionY * 100f;
+            e.Velocity.X = intent.DirectionX * 50f;
+            e.Velocity.Y = intent.DirectionY * 50f;
         }
     }
 }

@@ -6,10 +6,9 @@ namespace MarioLikePlatformerEngine.Scenes
     {
         public Vector2 Position;
 
-        public Matrix GetViewMatrix()
+        public Matrix GetViewMatrix(float scale, int screenWidth, int screenHeight)
         {
-            return Matrix.CreateTranslation(new Vector3(-Position, 0));
+            return Matrix.CreateTranslation(-Position.X, -Position.Y, 0f) * Matrix.CreateScale(scale);
         }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MarioLikePlatformerEngine.Core;
-using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.Systems.Collisions;
@@ -8,9 +7,8 @@ using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MarioLikePlatformerEngine.Scenes
@@ -85,7 +83,19 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0, _resources.ScreenWidth, _resources.ScreenHeight ), Color.White);
+            //spriteBatch.End();
+
+
+            spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(_resources.Scale, _resources.ScreenWidth, _resources.ScreenHeight));
+
+            //spriteBatch.DrawString(_resources.Font, "Score: 100", new Vector2(10, 10), Color.White);
+
+            //var bkgroundWidth = _resources.ScreenWidth;
+            //var bkgroundHeight = _resources.ScreenHeight - _map.TileSize; 
+
+            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0 , _resources.ScreenWidth, 640 - _map.TileSize), Color.White);
             DrawTileMap(spriteBatch, _resources.WhitePixel);
             DrawEntities(spriteBatch);
             DrawGoal(spriteBatch);
@@ -145,20 +155,26 @@ namespace MarioLikePlatformerEngine.Scenes
             // 2. physics + collisions
             List<CollisionEvent> events = new List<CollisionEvent>();
             _physics.Step(_entities, _map, dt, events);
-
             _rules.Apply(events, _context);
 
             _entities.RemoveAll(e => e.IsPendingDestroy);
 
-            var screenCenter = new Vector2(_resources.ScreenWidth / 2f, _resources.ScreenHeight / 2f);
-            _camera.Position = _player.Position - screenCenter;
-            //Debug.WriteLine("CAMERA UPDATE, " + _camera.Position);
 
-            _camera.Position.X = MathHelper.Clamp(_camera.Position.X, 0, _map.Width - _resources.ScreenWidth);
-            _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - _resources.ScreenHeight);
+            var screenCenter = new Vector2(_resources.ScreenWidth / (2f * _resources.Scale), _resources.ScreenHeight / (2f*_resources.Scale));
+            screenCenter.Y *= 0.7f;
+            _camera.Position = _player.Position - screenCenter;
+
+            var viewWidth = _resources.ScreenWidth / _resources.Scale;
+            var viewHeight = _resources.ScreenHeight / _resources.Scale;
+
+            _camera.Position.X = MathHelper.Clamp(_camera.Position.X, 0, _map.Width - viewWidth);
+            _camera.Position.Y = MathHelper.Clamp(_camera.Position.Y, 0, _map.Height - viewHeight);
+
             //System.Diagnostics.Debug.WriteLine(_player.Position);
             //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
-
+            //System.Diagnostics.Debug.WriteLine("Player: " + _player.Position);
+            //System.Diagnostics.Debug.WriteLine("Camera: " + _camera.Position);
+            //System.Diagnostics.Debug.WriteLine("Center: " + screenCenter);
 
             if (_context.State == GameState.Dead) {
                 RestartLevel();

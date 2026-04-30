@@ -26,7 +26,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
             //_movement = new SimpleMovement();
             _movement = new PhysicsMovement(
                 moveAcceleration: 9999f,
-                maxSpeed: 100f,
+                maxSpeed: 50f,
                 friction: 9999f,
                 airControl: 1f
             );

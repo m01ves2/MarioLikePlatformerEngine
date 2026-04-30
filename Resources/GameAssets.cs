@@ -11,6 +11,7 @@ namespace MarioLikePlatformerEngine.Resources
     {
         public Dictionary<EntityType, Texture2D> EntityTextures;
         public Dictionary<TileType, Texture2D> TileTextures;
+        public Texture2D BackGroundTexture;
 
         public void Load(ContentManager content)
         {
@@ -21,9 +22,7 @@ namespace MarioLikePlatformerEngine.Resources
                 { EntityType.Paratroopa, content.Load<Texture2D>("paratroopa") },
                 { EntityType.PiranhaPlant, content.Load<Texture2D>("piranhaplant") },
                 { EntityType.Bowser, content.Load<Texture2D>("bowser") },
-
                 { EntityType.Coin, content.Load<Texture2D>("coin") },
-
             };
 
             TileTextures = new Dictionary<TileType, Texture2D>
@@ -37,6 +36,7 @@ namespace MarioLikePlatformerEngine.Resources
         //    PrincessTexture = content.Load<Texture2D>("princess");
             };
 
+            BackGroundTexture = content.Load<Texture2D>("background");
         }
 
 
