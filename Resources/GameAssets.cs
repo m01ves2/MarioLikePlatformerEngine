@@ -11,7 +11,8 @@ namespace MarioLikePlatformerEngine.Resources
     {
         public Dictionary<EntityType, Texture2D> EntityTextures;
         public Dictionary<TileType, Texture2D> TileTextures;
-        public Texture2D BackGroundTexture;
+        public Texture2D BackgroundTreesTexture;
+        public Texture2D BackgroundSkyTexture;
 
         public void Load(ContentManager content)
         {
@@ -36,7 +37,8 @@ namespace MarioLikePlatformerEngine.Resources
         //    PrincessTexture = content.Load<Texture2D>("princess");
             };
 
-            BackGroundTexture = content.Load<Texture2D>("background");
+            BackgroundTreesTexture = content.Load<Texture2D>("background_trees");
+            BackgroundSkyTexture = content.Load<Texture2D>("background_sky");
         }
 
 

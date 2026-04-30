@@ -56,18 +56,12 @@ public class Game1 : Game
         var whitePixel = new Texture2D(GraphicsDevice, 1, 1);
         whitePixel.SetData(new[] { Color.White });
 
-        var resources = new GameResources
-        {
-            WhitePixel = whitePixel,
-            ScreenHeight = _screenHeight,
-            ScreenWidth = _screenWidth,
-        };
 
         _assets.Load(Content);
-        _resources.Load(Content, _whitePixel, _screenWidth, _screenHeight);
-        _sceneManager = new SceneManager(resources);
-
-        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures, _assets.BackGroundTexture);
+        _resources.Load(Content, whitePixel, _screenWidth, _screenHeight);
+        _textureProvider = new TextureProvider(_assets.EntityTextures, _assets.TileTextures, _assets.BackgroundTreesTexture, _assets.BackgroundSkyTexture);
+        
+        _sceneManager = new SceneManager(_resources, _textureProvider, _gameSettings);
         _sceneManager.SetScene(new GameScene(_textureProvider, _gameSettings));
 
         StartMusic();

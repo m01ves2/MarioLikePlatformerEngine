@@ -83,26 +83,81 @@ namespace MarioLikePlatformerEngine.Scenes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Begin();
-            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0, _resources.ScreenWidth, _resources.ScreenHeight ), Color.White);
-            //spriteBatch.End();
+            spriteBatch.Begin();
+            //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0, _resources.ScreenWidth, _resources.ScreenHeight), Color.White);
+            spriteBatch.DrawString(_resources.Font, $"Score: {_context.Scores}", new Vector2(50, _map.Height - _resources.ScreenHeight), Color.White);
+            spriteBatch.End();
 
 
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(_resources.Scale, _resources.ScreenWidth, _resources.ScreenHeight));
-
-            //spriteBatch.DrawString(_resources.Font, "Score: 100", new Vector2(10, 10), Color.White);
 
             //var bkgroundWidth = _resources.ScreenWidth;
             //var bkgroundHeight = _resources.ScreenHeight - _map.TileSize; 
 
             //spriteBatch.Draw(_textures.GetBackground(), new Rectangle(0, 0 , _resources.ScreenWidth, 640 - _map.TileSize), Color.White);
+
+            DrawBackground(spriteBatch);
+            
             DrawTileMap(spriteBatch, _resources.WhitePixel);
             DrawEntities(spriteBatch);
             DrawGoal(spriteBatch);
             spriteBatch.End();
         }
 
-        protected void DrawEntities(SpriteBatch spriteBatch)
+        private void DrawBackground(SpriteBatch spriteBatch)
+        {
+            DrawBackgroundSky(spriteBatch);
+            DrawBackgroundTrees(spriteBatch);
+        }
+
+        private void DrawBackgroundSky(SpriteBatch spriteBatch)
+        {
+            float parallax = 0.5f;
+            float offsetX = _camera.Position.X * parallax;
+
+            var texture = _textures.GetBackgroundSky();
+
+            float scale = _resources.Scale;
+            float viewWidth = _resources.ScreenWidth / scale;
+            int startX = (int)_camera.Position.X;
+            int endX = (int)(_camera.Position.X + viewWidth);
+
+            //int y = _map.Height - texture.Height - _resources.ScreenHeight/2;
+            //int y = (int)(_map.Height * 0.5f);
+            var y = 400f;
+
+            //for (int x = startX; x < _map.Width; x += texture.Width) {
+            //    spriteBatch.Draw(texture, new Vector2(x - offsetX, y), Color.White);
+            //}
+
+            for (int x = startX; x < endX + texture.Width; x += texture.Width)
+                spriteBatch.Draw(texture, new Vector2(x - offsetX, y), Color.White);
+
+        }
+
+        private void DrawBackgroundTrees(SpriteBatch spriteBatch)
+        {
+            //float parallax = 0.5f;
+            //float offsetX = _camera.Position.X * parallax;
+
+            var groundLevel = _map.Height;
+            var texture = _textures.GetBackgroundTrees();
+            var textureWidth = texture.Width;
+            var textureHeight = texture.Height;
+
+            int y = groundLevel - textureHeight - _map.TileSize;
+
+            //float scale = _resources.Scale;
+            //float viewWidth = _resources.ScreenWidth / scale;
+            //float startX = _camera.Position.X;
+            //float endX = _camera.Position.X + viewWidth;
+
+            for (int x = 0; x < _map.Width; x += textureWidth) {
+                spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
+            }
+        }
+
+        private void DrawEntities(SpriteBatch spriteBatch)
         {
             //spriteBatch.DrawString(_font, "Score: 100", new Vector2(10, 10), Color.White);
             foreach (var entity in _entities) {

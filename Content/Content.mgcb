@@ -19,7 +19,7 @@
 /processorParam:Quality=Best
 /build:background_music.ogg
 
-#begin background.png
+#begin background_sky.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -29,7 +29,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:background.png
+/build:background_sky.png
 
 #begin brick.png
 /importer:TextureImporter

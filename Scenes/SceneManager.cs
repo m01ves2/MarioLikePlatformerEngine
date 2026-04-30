@@ -9,10 +9,19 @@ namespace MarioLikePlatformerEngine.Scenes
     {
         private Scene _current;
         private GameResources _resources;
+        private TextureProvider _textures;
+        private GameSettings _settings;
 
-        public SceneManager(GameResources resources)
+        private Func<Scene> _sceneCreator;      
+
+        public SceneManager(GameResources resources, TextureProvider textures, GameSettings settings)
         {
             _resources = resources;
+            _textures = textures;
+            _settings = settings;
+
+            _sceneCreator = () => new GameScene(_textures, _settings);
+            _current = _sceneCreator();
         }
 
         public void SetScene(Scene scene)
@@ -21,7 +30,7 @@ namespace MarioLikePlatformerEngine.Scenes
 
             _current?.Load(_resources);
             _current.Initialize();
-        }
+        }   
 
         public void Update(float dt)
         {
@@ -42,7 +51,7 @@ namespace MarioLikePlatformerEngine.Scenes
         {
             var type = _current.GetType();
 
-            _current = (Scene)Activator.CreateInstance(type);
+            _current = _sceneCreator();
 
             _current.Load(_resources);
             _current.Initialize();
