@@ -21,6 +21,7 @@ public class Game1 : Game
     private GameResources _resources;
     private GameSettings _gameSettings;
     private TextureProvider _textureProvider;
+    private SoundsProvider _soundProvider;
 
     private SceneManager _sceneManager;
 
@@ -62,13 +63,12 @@ public class Game1 : Game
         _textureProvider = new TextureProvider(
             _assets.EntityTextures, 
             _assets.TileTextures, 
-            _assets.BackgroundTreesTexture, 
-            _assets.BackgroundSkyTexture, 
-            _assets.GoalTexture, 
-            _assets.CastleTexture);
+            _assets.Backgrounds);
+
+        _soundProvider = new SoundsProvider(_assets.Sounds);
         
-        _sceneManager = new SceneManager(_resources, _textureProvider, _gameSettings);
-        _sceneManager.SetScene(new GameScene(_textureProvider, _gameSettings));
+        _sceneManager = new SceneManager(_resources, _textureProvider, _soundProvider, _gameSettings);
+        _sceneManager.SetScene(new GameScene(_textureProvider, _soundProvider, _gameSettings));
 
         StartMusic();
     }

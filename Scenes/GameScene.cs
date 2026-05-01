@@ -24,9 +24,11 @@ namespace MarioLikePlatformerEngine.Scenes
         private Rectangle _goal;
 
         private TextureProvider _textures;
+        private SoundsProvider _sounds;
+
         private GameSettings _gameSettings;
 
-        public GameScene(TextureProvider textures, GameSettings gameSettings)
+        public GameScene(TextureProvider textures, SoundsProvider sounds, GameSettings gameSettings)
         {
             _rules = new CollisionRulesSystem();
             //_rules.AddRule(new PlayerGroundRule());
@@ -38,6 +40,7 @@ namespace MarioLikePlatformerEngine.Scenes
 
             _gameSettings = gameSettings;
             _textures = textures;
+            _sounds = sounds;
 
             //StartGame();
         }
@@ -120,7 +123,7 @@ namespace MarioLikePlatformerEngine.Scenes
         }
         private void DrawBackgroundSky(SpriteBatch spriteBatch)
         {
-            var texture = _textures.GetBackgroundSky();
+            var texture = _textures.Get(BackgroundType.Sky);
 
             float parallax = 0.25f;
 
@@ -143,7 +146,7 @@ namespace MarioLikePlatformerEngine.Scenes
         private void DrawBackgroundTrees(SpriteBatch spriteBatch)
         {
             var groundLevel = _map.Height;
-            var texture = _textures.GetBackgroundTrees();
+            var texture = _textures.Get(BackgroundType.Trees);
             var textureWidth = texture.Width;
             var textureHeight = texture.Height;
 
@@ -155,7 +158,7 @@ namespace MarioLikePlatformerEngine.Scenes
         }
         public void DrawBackGroundCastle(SpriteBatch spriteBatch)
         {
-            var castleTexture = _textures.GetCastle();
+            var castleTexture = _textures.Get(BackgroundType.Castle);
             spriteBatch.Draw(
                 castleTexture,
                 new Rectangle(
@@ -198,7 +201,7 @@ namespace MarioLikePlatformerEngine.Scenes
         public void DrawGoal(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                _textures.GetGoal(),
+                _textures.Get(BackgroundType.Goal),
                 _goal,
                 Color.Gold
             );

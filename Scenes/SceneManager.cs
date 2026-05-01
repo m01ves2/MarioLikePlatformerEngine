@@ -10,17 +10,19 @@ namespace MarioLikePlatformerEngine.Scenes
         private Scene _current;
         private GameResources _resources;
         private TextureProvider _textures;
+        private SoundsProvider _sounds;
         private GameSettings _settings;
 
         private Func<Scene> _sceneCreator;      
 
-        public SceneManager(GameResources resources, TextureProvider textures, GameSettings settings)
+        public SceneManager(GameResources resources, TextureProvider textures, SoundsProvider sounds, GameSettings settings)
         {
             _resources = resources;
             _textures = textures;
+            _sounds = sounds;
             _settings = settings;
 
-            _sceneCreator = () => new GameScene(_textures, _settings);
+            _sceneCreator = () => new GameScene(_textures, _sounds, _settings);
             _current = _sceneCreator();
         }
 

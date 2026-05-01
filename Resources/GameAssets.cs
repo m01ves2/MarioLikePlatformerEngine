@@ -7,14 +7,27 @@ using System.Collections.Generic;
 
 namespace MarioLikePlatformerEngine.Resources
 {
+    public enum SoundType
+    {
+        Coin,
+        Jump,
+        Kickkill
+    }
+
+    public enum BackgroundType
+    {
+        Trees,
+        Sky,
+        Goal,
+        Castle
+    }
     public class GameAssets
     {
         public Dictionary<EntityType, Texture2D> EntityTextures;
         public Dictionary<TileType, Texture2D> TileTextures;
-        public Texture2D BackgroundTreesTexture;
-        public Texture2D BackgroundSkyTexture;
-        public Texture2D GoalTexture;
-        public Texture2D CastleTexture;
+        public Dictionary<BackgroundType, Texture2D> Backgrounds;
+
+        public Dictionary<SoundType, SoundEffect> Sounds;
 
         public void Load(ContentManager content)
         {
@@ -36,10 +49,20 @@ namespace MarioLikePlatformerEngine.Resources
                 { TileType.QBlock, content.Load<Texture2D>("qblock") },
             };
 
-            BackgroundTreesTexture = content.Load<Texture2D>("background_trees");
-            BackgroundSkyTexture = content.Load<Texture2D>("background_sky");
-            GoalTexture = content.Load<Texture2D>("princess");
-            CastleTexture = content.Load<Texture2D>("castle");
+            Sounds = new Dictionary<SoundType, SoundEffect>
+            {
+                { SoundType.Coin, content.Load<SoundEffect>("coinSound") },
+                { SoundType.Jump, content.Load<SoundEffect>("jumpSound") },
+                { SoundType.Kickkill, content.Load<SoundEffect>("kickkillSound") },
+            };
+
+            Backgrounds = new Dictionary<BackgroundType, Texture2D>
+            { 
+                { BackgroundType.Trees, content.Load<Texture2D>("background_trees") },
+                { BackgroundType.Sky, content.Load<Texture2D>("background_sky") },
+                { BackgroundType.Goal, content.Load<Texture2D>("princess") },
+                { BackgroundType.Castle, content.Load<Texture2D>("castle") },
+            };
         }
     }
 }
