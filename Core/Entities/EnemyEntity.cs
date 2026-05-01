@@ -17,6 +17,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
         private readonly IBehavior _behavior;
 
         private TileMap _map;
+        public bool WasKilled = false;
 
         public EnemyEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Enemy, EntityType.Goomba)

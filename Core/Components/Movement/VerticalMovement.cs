@@ -28,8 +28,10 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             _coyoteTime = coyoteTime;
         }
 
-        public void Apply(Entity e, bool jumpPressed, bool jumpReleased, bool isGrounded, float dt)
+        public bool Apply(Entity e, bool jumpPressed, bool jumpReleased, bool isGrounded, float dt)
         {
+            bool jumped = false; //flag for playing sound of jumping
+
             // buffer
             if (jumpPressed)
                 _jumpBufferCounter = _jumpBufferTime;
@@ -46,6 +48,8 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             if (_jumpBufferCounter > 0 && _coyoteCounter > 0) {
                 e.Velocity.Y = -_jumpSpeed;
                 _jumpBufferCounter = 0;
+
+                jumped = true;
             }
 
             // jump cut
@@ -57,6 +61,8 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             if (!isGrounded) {
                 e.Velocity.Y += _gravity * dt;
             }
+
+            return jumped;
         }
 
         public void UpdateTimers(bool jumpPressed, bool isGrounded, float dt)

@@ -22,7 +22,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
 
         private int _health = 1;
         public bool IsDead { get; private set; } = false;
-
+        public bool JustJumped { get; private set; } = false;
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player, EntityType.Mario)
         {
@@ -51,13 +51,15 @@ namespace MarioLikePlatformerEngine.Core.Entities
 
         public override void Update(float dt)
         {
+            JustJumped = false;
+
             ReadInput();
 
             //_movement.Apply(this, _intent.DirectionX, 0, Contacts.IsGrounded, dt);
             _movement.Apply(this, _intent, Contacts.IsGrounded, dt);
             _vertical.UpdateTimers(_intent.JumpPressed, Contacts.IsGrounded, dt);
 
-            _vertical.Apply(
+            JustJumped = _vertical.Apply(
                 this,
                 _intent.JumpPressed,
                 _intent.JumpReleased,

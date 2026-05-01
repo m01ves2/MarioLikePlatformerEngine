@@ -21,6 +21,7 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
 
             player.Velocity.Y = -300f; // bounce
             enemy.IsPendingDestroy = true;
+            (enemy as EnemyEntity).WasKilled = true;
         }
     }
 }

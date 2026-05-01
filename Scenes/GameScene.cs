@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 
 namespace MarioLikePlatformerEngine.Scenes
@@ -215,6 +216,8 @@ namespace MarioLikePlatformerEngine.Scenes
                 }
             }
 
+
+
             // 1. input / AI
             foreach (var e in _entities)
                 e.Update(dt); // ТОЛЬКО input / AI
@@ -224,6 +227,7 @@ namespace MarioLikePlatformerEngine.Scenes
             _physics.Step(_entities, _map, dt, events);
             _rules.Apply(events, _context);
 
+            MakeSounds();
             _entities.RemoveAll(e => e.IsPendingDestroy);
 
             UpdateCamera();
@@ -240,6 +244,24 @@ namespace MarioLikePlatformerEngine.Scenes
                 _context.Command = GameCommand.Restart;
             }
         }
+
+        public void MakeSounds()
+        {
+            if(_player.JustJumped)
+                _sounds.Get(SoundType.Jump).Play();
+
+            foreach (var e in _entities) {
+                if(e is CoinEntity coin && coin.WasCollected) {
+                        _sounds.Get(SoundType.Coin).Play();
+                        coin.WasCollected = false;
+                }
+
+                if(e is EnemyEntity enemy && enemy.WasKilled) {
+                    _sounds.Get(SoundType.Kickkill).Play();
+                    enemy.WasKilled = false;
+                }
+            }
+        }   
 
         public void UpdateCamera()
         {

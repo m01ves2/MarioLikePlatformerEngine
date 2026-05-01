@@ -20,6 +20,7 @@ namespace MarioLikePlatformerEngine.Systems.GameplayRules
 
             coin.IsPendingDestroy = true;
             ctx.Scores += 100;
+            (coin as CoinEntity).WasCollected = true;
         }
 
     }
