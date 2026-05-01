@@ -7,9 +7,9 @@ using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 
 namespace MarioLikePlatformerEngine.Scenes
@@ -83,6 +83,30 @@ namespace MarioLikePlatformerEngine.Scenes
                 Scores = 0, 
                 Command = GameCommand.None,
                 Lives = 3};
+
+            UpdateMusic();
+        }
+
+        public void UpdateMusic()
+        {
+            switch (_context.State) {
+                case GameState.Playing:
+                    MediaPlayer.Volume = 0.1f;
+                    MediaPlayer.IsRepeating = true;
+                    MediaPlayer.Play(_resources.MainMusic);
+                    break;
+
+                case GameState.GameOver:
+                    MediaPlayer.Volume = 0.1f;
+                    MediaPlayer.IsRepeating = false;
+                    MediaPlayer.Play(_resources.GameOverMusic);
+                    break;
+                case GameState.GameWin:
+                    //MediaPlayer.Volume = 0.1f;
+                    MediaPlayer.IsRepeating = false;
+                    MediaPlayer.Play(_resources.GameWinMusic);
+                    break;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -216,8 +240,6 @@ namespace MarioLikePlatformerEngine.Scenes
                 }
             }
 
-
-
             // 1. input / AI
             foreach (var e in _entities)
                 e.Update(dt); // ТОЛЬКО input / AI
@@ -232,15 +254,17 @@ namespace MarioLikePlatformerEngine.Scenes
 
             UpdateCamera();
 
-            if (_context.State == GameState.Dead) {
-                RestartLevel();
-            }
+            //if (_context.State == GameState.GameOver) {
+            //    RestartLevel();
+            //}
 
             if (isGameOver()) {
-                _context.Command = GameCommand.Restart;
+                UpdateMusic();
+                _context.Command = GameCommand.Restart;                
             }
 
             if (iskWin()) {
+                UpdateMusic();
                 _context.Command = GameCommand.Restart;
             }
         }
@@ -252,13 +276,18 @@ namespace MarioLikePlatformerEngine.Scenes
 
             foreach (var e in _entities) {
                 if(e is CoinEntity coin && coin.WasCollected) {
-                        _sounds.Get(SoundType.Coin).Play();
-                        coin.WasCollected = false;
+                        _sounds.Get(SoundType.Coin).Play(); //volume: 0.2f, 0, 0
+                    coin.WasCollected = false;
                 }
 
                 if(e is EnemyEntity enemy && enemy.WasKilled) {
                     _sounds.Get(SoundType.Kickkill).Play();
                     enemy.WasKilled = false;
+                }
+
+                if (e is FlyingEnemyEntity flyingenemy && flyingenemy.WasKilled) {
+                    _sounds.Get(SoundType.Kickkill).Play();
+                    flyingenemy.WasKilled = false;
                 }
             }
         }   
@@ -281,14 +310,14 @@ namespace MarioLikePlatformerEngine.Scenes
 
         }
 
-        public void RestartLevel()
-        {
-            _entities.Clear();
-            _map = null;
-            _player = null;
+        //public void RestartLevel()
+        //{
+        //    _entities.Clear();
+        //    _map = null;
+        //    _player = null;
 
-            Initialize();
-        }
+        //    Initialize();
+        //}
 
         private bool isGameOver()
         {
@@ -299,13 +328,17 @@ namespace MarioLikePlatformerEngine.Scenes
             if (_player.IsDead)
                 _context.Lives--;
 
-            return _context.Lives <= 0;
+            if(_context.Lives <= 0) {
+                _context.State = GameState.GameOver;
+                return true;
+            }
+            return false;
         }
 
         private bool iskWin()
         {
             if (_player.Bounds.Intersects(_goal)) {
-                _context.State = GameState.Win;
+                _context.State = GameState.GameWin;
                 return true;
             }
             return false;

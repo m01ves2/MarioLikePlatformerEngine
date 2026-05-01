@@ -70,15 +70,15 @@ public class Game1 : Game
         _sceneManager = new SceneManager(_resources, _textureProvider, _soundProvider, _gameSettings);
         _sceneManager.SetScene(new GameScene(_textureProvider, _soundProvider, _gameSettings));
 
-        StartMusic();
+        //StartMusic();
     }
 
-    private void StartMusic()
-    {
-        MediaPlayer.IsRepeating = true;
-        MediaPlayer.Volume = 0.1f;
-        MediaPlayer.Play(_resources.Music);
-    }
+    //private void StartMusic()
+    //{
+    //    MediaPlayer.IsRepeating = true;
+    //    MediaPlayer.Volume = 0.1f;
+    //    MediaPlayer.Play(_resources.MainMusic);
+    //}
 
     protected override void Update(GameTime gameTime)
     {
@@ -87,7 +87,9 @@ public class Game1 : Game
 
         // TODO: Add your update logic here
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        
         Input.Update();
+        
         _sceneManager.Update(dt);
 
         base.Update(gameTime);

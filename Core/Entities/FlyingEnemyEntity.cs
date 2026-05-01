@@ -13,6 +13,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
         private readonly IMovement _movement;
         private readonly IBehavior _behavior;
         private TileMap _map;
+        public bool WasKilled { get; set; }
 
         public FlyingEnemyEntity(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
             : base(position, width, height, EntityTag.Enemy, EntityType.Paratroopa)

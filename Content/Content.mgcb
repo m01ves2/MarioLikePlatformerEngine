@@ -80,11 +80,23 @@
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont;font.spritefont
 
+#begin gameover_music.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:gameover_music.ogg
+
 #begin gameoverSound.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:gameoverSound.wav
+
+#begin gamewin_music.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:gamewin_music.ogg
 
 #begin goomba.png
 /importer:TextureImporter
