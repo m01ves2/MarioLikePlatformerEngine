@@ -7,9 +7,11 @@ namespace MarioLikePlatformerEngine.Resources
     public class GameResources
     {
         public SpriteFont Font;
-        public Song MainMusic;
+        public Song GameMusic;
         public Song GameOverMusic;
         public Song GameWinMusic;
+        public Song MenuMusic;
+
         public Texture2D WhitePixel;
         public int ScreenWidth;
         public int ScreenHeight;
@@ -21,9 +23,10 @@ namespace MarioLikePlatformerEngine.Resources
             ScreenHeight = screenHeight;
             WhitePixel = whitePixel;
             Font = Content.Load<SpriteFont>("font");
-            MainMusic = Content.Load<Song>("background_music");
+            GameMusic = Content.Load<Song>("background_music");
             GameOverMusic = Content.Load<Song>("gameover_music");
             GameWinMusic = Content.Load<Song>("gamewin_music");
+            MenuMusic = Content.Load<Song>("menu_music");
         }
     }
 }

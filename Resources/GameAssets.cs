@@ -19,7 +19,8 @@ namespace MarioLikePlatformerEngine.Resources
         Trees,
         Sky,
         Goal,
-        Castle
+        Castle,
+        Menu
     }
     public class GameAssets
     {
@@ -62,6 +63,7 @@ namespace MarioLikePlatformerEngine.Resources
                 { BackgroundType.Sky, content.Load<Texture2D>("background_sky") },
                 { BackgroundType.Goal, content.Load<Texture2D>("princess") },
                 { BackgroundType.Castle, content.Load<Texture2D>("castle") },
+                { BackgroundType.Menu, content.Load<Texture2D>("menu_background") },
             };
         }
     }

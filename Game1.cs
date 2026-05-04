@@ -1,10 +1,10 @@
-﻿using MarioLikePlatformerEngine.Inputs;
+﻿using MarioLikePlatformerEngine.Application;
+using MarioLikePlatformerEngine.Application.Scenes;
+using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Resources;
-using MarioLikePlatformerEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace MarioLikePlatformerEngine;
 
@@ -20,8 +20,8 @@ public class Game1 : Game
     private GameAssets _assets;
     private GameResources _resources;
     private GameSettings _gameSettings;
-    private TextureProvider _textureProvider;
-    private SoundsProvider _soundProvider;
+    private TextureProvider _textures;
+    private SoundsProvider _sounds;
 
     private SceneManager _sceneManager;
 
@@ -60,37 +60,29 @@ public class Game1 : Game
 
         _assets.Load(Content);
         _resources.Load(Content, whitePixel, _screenWidth, _screenHeight);
-        _textureProvider = new TextureProvider(
+        _textures = new TextureProvider(
             _assets.EntityTextures, 
             _assets.TileTextures, 
             _assets.Backgrounds);
 
-        _soundProvider = new SoundsProvider(_assets.Sounds);
+        _sounds = new SoundsProvider(_assets.Sounds);
         
-        _sceneManager = new SceneManager(_resources, _textureProvider, _soundProvider, _gameSettings);
-        _sceneManager.SetScene(new GameScene(_textureProvider, _soundProvider, _gameSettings));
-
-        //StartMusic();
+        _sceneManager = new SceneManager(_resources, _textures, _sounds, _gameSettings);
+        //_sceneManager.SetScene(new GameScene(_textureProvider, _soundProvider, _gameSettings));
+        _sceneManager.SetScene(new MenuScene(_textures, new GameResult()));
     }
-
-    //private void StartMusic()
-    //{
-    //    MediaPlayer.IsRepeating = true;
-    //    MediaPlayer.Volume = 0.1f;
-    //    MediaPlayer.Play(_resources.MainMusic);
-    //}
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
         // TODO: Add your update logic here
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
         
         Input.Update();
-        
         _sceneManager.Update(dt);
+
+        if (_sceneManager.ShouldExit)
+            Exit();
+
 
         base.Update(gameTime);
     }

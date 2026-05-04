@@ -1,4 +1,5 @@
-﻿using MarioLikePlatformerEngine.Core;
+﻿using MarioLikePlatformerEngine.Application;
+using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Entities;
 using static MarioLikePlatformerEngine.Systems.CollisionMath;
 
@@ -14,7 +15,7 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
                    (e.A.Tag == EntityTag.Enemy && e.Side == CollisionSide.Top));
         }
 
-        public void Apply(CollisionEvent e, GameContext c)
+        public void Apply(CollisionEvent e, GameSession c)
         {
             var player = e.A.Tag == EntityTag.Player? e.A : e.B;
             var enemy = e.A.Tag == EntityTag.Enemy ? e.A : e.B;

@@ -1,7 +1,7 @@
-﻿using MarioLikePlatformerEngine.Core;
+﻿using MarioLikePlatformerEngine.Application;
+using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.Systems.Collisions;
-using static MarioLikePlatformerEngine.Systems.CollisionMath;
 
 namespace MarioLikePlatformerEngine.Systems.GameplayRules
 {
@@ -13,7 +13,7 @@ namespace MarioLikePlatformerEngine.Systems.GameplayRules
                    (e.A.Tag == EntityTag.Coin && e.B.Tag == EntityTag.Player);
         }
 
-        public void Apply(CollisionEvent e, GameContext ctx)
+        public void Apply(CollisionEvent e, GameSession ctx)
         {
             var player = e.A.Tag == EntityTag.Player ? e.A : e.B;
             var coin = e.A.Tag == EntityTag.Coin ? e.A : e.B;

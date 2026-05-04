@@ -1,4 +1,4 @@
-﻿namespace MarioLikePlatformerEngine.Core.Config
+﻿namespace MarioLikePlatformerEngine.Core.Entities.Config
 {
     public class EnemyEntityConfig
     {

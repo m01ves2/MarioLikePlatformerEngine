@@ -1,4 +1,5 @@
-﻿using MarioLikePlatformerEngine.Core;
+﻿using MarioLikePlatformerEngine.Application;
+using MarioLikePlatformerEngine.Core;
 using System.Collections.Generic;
 
 namespace MarioLikePlatformerEngine.Systems.Collisions
@@ -12,14 +13,14 @@ namespace MarioLikePlatformerEngine.Systems.Collisions
             _rules.Add(rule);
         }
 
-        public void Apply(List<CollisionEvent> events, GameContext ctx)
+        public void Apply(List<CollisionEvent> events, GameSession ctx)
         {
             foreach (var e in events) {
                 Apply(e, ctx);
             }
         }
 
-        public void Apply(CollisionEvent e, GameContext ctx)
+        public void Apply(CollisionEvent e, GameSession ctx)
         {
             foreach (var rule in _rules) {
                 if (rule.Matches(e))

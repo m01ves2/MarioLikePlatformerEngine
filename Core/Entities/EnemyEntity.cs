@@ -1,7 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
 using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
-using MarioLikePlatformerEngine.Core.Config;
+using MarioLikePlatformerEngine.Core.Entities.Config;
 using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;

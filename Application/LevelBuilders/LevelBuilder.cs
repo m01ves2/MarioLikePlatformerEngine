@@ -4,7 +4,7 @@ using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace MarioLikePlatformerEngine.Scenes
+namespace MarioLikePlatformerEngine.Application.LevelBuilders
 {
     public static class LevelBuilder
     {

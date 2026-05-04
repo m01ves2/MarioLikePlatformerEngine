@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MarioLikePlatformerEngine.Scenes
+namespace MarioLikePlatformerEngine.Application.Scenes
 {
     public class Camera2D
     {

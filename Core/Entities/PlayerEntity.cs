@@ -1,6 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core.Components;
 using MarioLikePlatformerEngine.Core.Components.Movement;
-using MarioLikePlatformerEngine.Core.Config;
+using MarioLikePlatformerEngine.Core.Entities.Config;
 using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework;

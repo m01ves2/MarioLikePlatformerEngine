@@ -1,10 +1,10 @@
-﻿using MarioLikePlatformerEngine.Core;
-using MarioLikePlatformerEngine.Core.Entities;
+﻿using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.Resources;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace MarioLikePlatformerEngine.Scenes
+namespace MarioLikePlatformerEngine.Application.Scenes
 {
     public abstract class Scene
     {
@@ -32,17 +32,25 @@ namespace MarioLikePlatformerEngine.Scenes
             _entities.Add(entity);
         }
 
-        public virtual void Update(float dt) {
+        public virtual SceneUpdateResult Update(float dt) {
 
             foreach (Entity entity in _entities) {
                 entity.Update(dt);
             }
 
             _entities.RemoveAll(e => e.IsPendingDestroy);
+
+            return SceneUpdateResult.None;
         }
         public virtual void Draw(SpriteBatch spriteBatch) {
         }
 
-        public abstract GameCommand ConsumeCommand();
+        protected void DrawCentered(SpriteBatch spriteBatch, string text, float y, Color color)
+        {
+            var size = _resources.Font.MeasureString(text);
+            float x = _resources.ScreenWidth / 2f - size.X / 2f;
+
+            spriteBatch.DrawString(_resources.Font, text, new Vector2(x, y), color);
+        }
     }
 }

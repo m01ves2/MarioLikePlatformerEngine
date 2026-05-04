@@ -1,5 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Entities;
+using MarioLikePlatformerEngine.Application.LevelBuilders;
 using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using MarioLikePlatformerEngine.Systems.GameplayRules;
@@ -7,16 +8,15 @@ using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
-using System.Threading;
+using Microsoft.Xna.Framework.Media;
 
 
-namespace MarioLikePlatformerEngine.Scenes
+namespace MarioLikePlatformerEngine.Application.Scenes
 {
     public class GameScene : Scene
     {
-        private GameContext _context;
+        private GameSession _session;
 
         private CollisionRulesSystem _rules;
         private PhysicsSystem _physics;
@@ -78,35 +78,57 @@ namespace MarioLikePlatformerEngine.Scenes
                 AddEntity(coins[i]);
             }
 
-            _context = new GameContext() { Map = _map, 
-                State = GameState.Playing, 
-                Scores = 0, 
-                Command = GameCommand.None,
-                Lives = 3};
+            _session = new GameSession() {
+                Scores = 0,
+                Lives = 3 
+            };
 
-            UpdateMusic();
+            StartMusic();
         }
 
-        public void UpdateMusic()
+        public void StartMusic()
         {
-            switch (_context.State) {
-                case GameState.Playing:
-                    MediaPlayer.Volume = 0.1f;
-                    MediaPlayer.IsRepeating = true;
-                    MediaPlayer.Play(_resources.MainMusic);
-                    break;
+            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(_resources.GameMusic);
+        }
 
-                case GameState.GameOver:
-                    MediaPlayer.Volume = 0.1f;
-                    MediaPlayer.IsRepeating = false;
-                    MediaPlayer.Play(_resources.GameOverMusic);
-                    break;
-                case GameState.GameWin:
-                    //MediaPlayer.Volume = 0.1f;
-                    MediaPlayer.IsRepeating = false;
-                    MediaPlayer.Play(_resources.GameWinMusic);
-                    break;
+        public override SceneUpdateResult Update(float dt)
+        {
+            foreach (var e in _entities) {
+                if (e is EnemyEntity enemy) {
+                    enemy.Sense(_map);
+                }
             }
+
+            // 1. input / AI
+            foreach (var e in _entities)
+                e.Update(dt); // ТОЛЬКО input / AI
+
+            // 2. physics + collisions
+            List<CollisionEvent> events = new List<CollisionEvent>();
+            _physics.Step(_entities, _map, dt, events);
+            _rules.Apply(events, _session);
+
+            MakeSounds();
+            _entities.RemoveAll(e => e.IsPendingDestroy);
+
+            UpdateCamera();
+
+            //if (_session.State == GameState.GameOver) {
+            //    RestartLevel();
+            //}
+
+            if (isGameOver()) {
+                return new SceneUpdateResult(GameCommand.ShowGameOver, new GameResult() { Score = _session.Scores });
+            }
+
+            if (iskWin()) {
+                return new SceneUpdateResult(GameCommand.ShowGameWin, new GameResult() { Score = _session.Scores });
+            }
+
+
+            return SceneUpdateResult.None;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -121,7 +143,7 @@ namespace MarioLikePlatformerEngine.Scenes
 
             spriteBatch.DrawString(
                 _resources.Font,
-                $"Score: {_context.Scores}",
+                $"Score: {_session.Scores}",
                 new Vector2(50, 20),
                 Color.White
             );
@@ -231,44 +253,6 @@ namespace MarioLikePlatformerEngine.Scenes
                 Color.Gold
             );
         }
-
-        public override void Update(float dt)
-        {
-            foreach (var e in _entities) {
-                if (e is EnemyEntity enemy) {
-                    enemy.Sense(_map);
-                }
-            }
-
-            // 1. input / AI
-            foreach (var e in _entities)
-                e.Update(dt); // ТОЛЬКО input / AI
-
-            // 2. physics + collisions
-            List<CollisionEvent> events = new List<CollisionEvent>();
-            _physics.Step(_entities, _map, dt, events);
-            _rules.Apply(events, _context);
-
-            MakeSounds();
-            _entities.RemoveAll(e => e.IsPendingDestroy);
-
-            UpdateCamera();
-
-            //if (_context.State == GameState.GameOver) {
-            //    RestartLevel();
-            //}
-
-            if (isGameOver()) {
-                UpdateMusic();
-                _context.Command = GameCommand.Restart;                
-            }
-
-            if (iskWin()) {
-                UpdateMusic();
-                _context.Command = GameCommand.Restart;
-            }
-        }
-
         public void MakeSounds()
         {
             if(_player.JustJumped)
@@ -310,26 +294,16 @@ namespace MarioLikePlatformerEngine.Scenes
 
         }
 
-        //public void RestartLevel()
-        //{
-        //    _entities.Clear();
-        //    _map = null;
-        //    _player = null;
-
-        //    Initialize();
-        //}
-
         private bool isGameOver()
         {
-            if (_player.Position.Y > _context.Map.Height + 200) {
+            if (_player.Position.Y > _map.Height + 200) {
                 _player.Kill();
             }
 
             if (_player.IsDead)
-                _context.Lives--;
+                _session.Lives--;
 
-            if(_context.Lives <= 0) {
-                _context.State = GameState.GameOver;
+            if(_session.Lives <= 0) {
                 return true;
             }
             return false;
@@ -338,17 +312,9 @@ namespace MarioLikePlatformerEngine.Scenes
         private bool iskWin()
         {
             if (_player.Bounds.Intersects(_goal)) {
-                _context.State = GameState.GameWin;
                 return true;
             }
             return false;
-        }
-
-        public override GameCommand ConsumeCommand()
-        {
-            var cmd = _context.Command;
-            _context.Command = GameCommand.None;
-            return cmd;
         }
     }
 }
