@@ -66,6 +66,8 @@ namespace MarioLikePlatformerEngine.Core.Entities
                 Contacts.IsGrounded,
                 dt
             );
+
+            base.Update( dt );
         }
 
         private void ReadInput()
@@ -80,19 +82,6 @@ namespace MarioLikePlatformerEngine.Core.Entities
 
             _intent.JumpPressed = Input.IsKeyPressed(Keys.Space);
             _intent.JumpReleased = Input.IsKeyReleased(Keys.Space);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
-        {
-            spriteBatch.Draw(
-                texture,
-                new Rectangle(
-                    (int)MathF.Round(Position.X),
-                    (int)MathF.Round(Position.Y),
-                    Width,
-                    Height),
-                Color.White
-            );
         }
 
         public override void TakeDamage()

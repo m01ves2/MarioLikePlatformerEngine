@@ -45,21 +45,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             _textures = textures;
             _sounds = sounds;
 
-            //StartGame();
         }
-
-        //private void LoadGameResources(GameResources gameResources)
-        //{
-        //    _font = gameResources.Font;
-        //    _screenHeight = gameResources.ScreenHeight;
-        //    _screenWidth = gameResources.ScreenWidth;
-        //    _pixel = gameResources._whitePixel;
-        //}
-
-        //private void LoadGameSettings(GameSettings gameSettings)
-        //{
-        //    _levelPath = gameSettings.SelectedLevel;
-        //}
 
         public override void Initialize()
         {
@@ -120,10 +106,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             _entities.RemoveAll(e => e.IsPendingDestroy);
 
             UpdateCamera();
-
-            //if (_session.State == GameState.GameOver) {
-            //    RestartLevel();
-            //}
 
             if (isGameOver()) {
                 return new SceneUpdateResult(GameCommand.ShowGameOver, new GameResult() { Score = _session.Scores });

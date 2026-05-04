@@ -33,20 +33,13 @@ namespace MarioLikePlatformerEngine.Core.Entities
             var intent = _behavior.GetIntent(this, _map, dt);
 
             _movement.Apply(this, intent, false, dt);
+
+            base.Update(dt);
         }
 
         public void Sense(TileMap map)
         {
             _map = map;
-        }
-
-        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
-        {
-            spriteBatch.Draw(
-                texture,
-                new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-                Color.White
-            );
         }
     }
 }
