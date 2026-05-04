@@ -68,7 +68,6 @@ public class Game1 : Game
         _sounds = new SoundsProvider(_assets.Sounds);
         
         _sceneManager = new SceneManager(_resources, _textures, _sounds, _gameSettings);
-        //_sceneManager.SetScene(new GameScene(_textureProvider, _soundProvider, _gameSettings));
         _sceneManager.SetScene(new MenuScene(_textures, new GameResult()));
     }
 
@@ -89,16 +88,11 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        //_spriteBatch.Begin();
-        //_spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
+        GraphicsDevice.Clear(new Color(118, 134, 255));
 
         // TODO: Add your drawing code here
         _sceneManager.Draw(_spriteBatch);
 
         //base.Draw(gameTime);
-
-        //_spriteBatch.End();
     }
 }

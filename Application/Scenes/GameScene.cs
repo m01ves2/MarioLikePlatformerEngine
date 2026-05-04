@@ -1,6 +1,7 @@
-﻿using MarioLikePlatformerEngine.Core;
+﻿using MarioLikePlatformerEngine.Application.LevelBuilders;
+using MarioLikePlatformerEngine.Core;
 using MarioLikePlatformerEngine.Core.Entities;
-using MarioLikePlatformerEngine.Application.LevelBuilders;
+using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.Systems.Collisions;
 using MarioLikePlatformerEngine.Systems.GameplayRules;
@@ -8,8 +9,9 @@ using MarioLikePlatformerEngine.Systems.Physics;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
 
 
 namespace MarioLikePlatformerEngine.Application.Scenes
@@ -95,7 +97,11 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         public override SceneUpdateResult Update(float dt)
         {
-            foreach (var e in _entities) {
+            if(Input.IsKeyPressed(Keys.Escape)) {
+                return new SceneUpdateResult(GameCommand.GoToMenu, new GameResult() { Score = _session.Scores });
+            }
+
+                foreach (var e in _entities) {
                 if (e is EnemyEntity enemy) {
                     enemy.Sense(_map);
                 }
@@ -260,7 +266,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             foreach (var e in _entities) {
                 if(e is CoinEntity coin && coin.WasCollected) {
-                        _sounds.Get(SoundType.Coin).Play(); //volume: 0.2f, 0, 0
+                        _sounds.Get(SoundType.Coin).Play(0.2f, 0, 0); //volume: 0.2f, 0, 0
                     coin.WasCollected = false;
                 }
 

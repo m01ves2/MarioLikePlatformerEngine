@@ -26,7 +26,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         public override SceneUpdateResult Update(float dt)
         {
-            if (Input.IsKeyPressed(Keys.Space)) {
+            if (Input.IsAnyKeyDown()) {
                 return new SceneUpdateResult(GameCommand.GoToMenu, _result);
             }
 

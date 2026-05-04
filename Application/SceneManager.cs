@@ -1,4 +1,5 @@
 ﻿using MarioLikePlatformerEngine.Application.Scenes;
+using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,6 +18,7 @@ namespace MarioLikePlatformerEngine.Application
 
         private bool _shouldExit = false;
         public bool ShouldExit => _shouldExit;
+        private bool _blockInput;
 
         //private Func<Scene> _sceneCreator;
         private Dictionary<GameCommand, Func<GameResult, Scene>> _sceneFactory;
@@ -49,24 +51,30 @@ namespace MarioLikePlatformerEngine.Application
 
             _current?.Load(_resources);
             _current.Initialize();
-        }   
+            //Input.Reset();
+            _blockInput = true;
+        }
 
         public void Update(float dt)
         {
+            if (_blockInput) {
+                if (!Input.IsAnyKeyDown()) {
+                    _blockInput = false;
+                }
+                return;
+            }
+
             var updateResult = _current?.Update(dt);
 
-
-
-            if (updateResult.Command == GameCommand.None) 
+            if (updateResult.Command == GameCommand.None)
                 return;
 
             if (updateResult.Command == GameCommand.Quit) {
                 _shouldExit = true;
                 return;
             }
-            
+
             SetScene(_sceneFactory[updateResult.Command](updateResult.Result));
-            
         }
 
         public void Draw(SpriteBatch spriteBatch)
