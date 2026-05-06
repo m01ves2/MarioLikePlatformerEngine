@@ -35,11 +35,6 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _behavior = new PatrolBehavior();
         }
 
-        //public override void Load(GameResources resources)
-        //{
-        //    _whitePixel = resources.WhitePixel;
-        //}
-
         public override void Update(float dt)
         {
             var intent = _behavior.GetIntent(this, _map, dt);

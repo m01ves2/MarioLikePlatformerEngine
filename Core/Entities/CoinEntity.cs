@@ -13,18 +13,19 @@ namespace MarioLikePlatformerEngine.Core.Entities
             IsTrigger = true;
         }
 
+
         //public override void Load(GameResources resources)
         //{
         //    _whitePixel = resources.WhitePixel;
         //}
 
-        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
-        {
-            spriteBatch.Draw(
-                texture,
-                new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
-                Color.White
-            );
-        }
+        //public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
+        //{
+        //    spriteBatch.Draw(
+        //        texture,
+        //        new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
+        //        Color.White
+        //    );
+        //}
     }
 }

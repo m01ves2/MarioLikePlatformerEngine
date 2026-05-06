@@ -56,10 +56,11 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         public override void Initialize()
         {
-            LevelData data = LevelBuilder.CreateLevel();
+            var factory = new EntityFactory(_textures);
+            LevelData data = LevelBuilder.CreateLevel(factory);
             _map = data.Map;
             _player = data.PlayerStart;
-            _player.SetAnimations(_textures.Get(EntityType.Mario));
+            //_player.SetAnimations(_textures.Get(EntityType.Mario));
             AddEntity(_player);
 
             var entities = data.Enemies;
@@ -237,7 +238,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             //spriteBatch.DrawString(_font, "Score: 100", new Vector2(10, 10), Color.White);
             foreach (var entity in _entities) {
                 var texture = _textures.Get(entity);
-                entity.Draw(spriteBatch, texture);
+                entity.Draw(spriteBatch);
             }
         }
         public void DrawTileMap(SpriteBatch sb, Texture2D pixel)

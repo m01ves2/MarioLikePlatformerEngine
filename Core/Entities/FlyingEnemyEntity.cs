@@ -1,9 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Core.Components.Movement;
-using MarioLikePlatformerEngine.Resources;
 using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MarioLikePlatformerEngine.Core.Entities
 {
@@ -15,7 +13,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
         private TileMap _map;
         public bool WasKilled { get; set; }
 
-        public FlyingEnemyEntity(Vector2 position, FlyingBehavior flyingBehavior, int width, int height)
+        public FlyingEnemyEntity(Vector2 position, IBehavior flyingBehavior, int width, int height)
             : base(position, width, height, EntityTag.Enemy, EntityType.Paratroopa)
         {
             //_movement = new PhysicsMovement(800f, 150f, 0f, 1f);
@@ -23,10 +21,9 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _behavior = flyingBehavior;
         }
 
-        //public override void Load(GameResources resources)
-        //{
-        //    _whitePixel = resources.WhitePixel;
-        //}
+        protected override void SelectAnimation()
+        {
+        }
 
         public override void Update(float dt)
         {
@@ -35,6 +32,8 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _movement.Apply(this, intent, false, dt);
 
             base.Update(dt);
+
+            Facing = -Facing; //костыль, текстура в оригинальном spritesheet перевернута
         }
 
         public void Sense(TileMap map)

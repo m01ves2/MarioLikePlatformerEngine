@@ -20,7 +20,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
         public void StartMusic()
         {
             MediaPlayer.Volume = 0.1f;
-            MediaPlayer.IsRepeating = true;
+            MediaPlayer.IsRepeating = false;
             MediaPlayer.Play(_resources.GameWinMusic);
         }
 

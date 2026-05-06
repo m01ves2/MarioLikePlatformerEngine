@@ -8,7 +8,7 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
 {
     public static class LevelBuilder
     {
-        public static LevelData CreateLevel()
+        public static LevelData CreateLevel(EntityFactory entityFactory)
         {
             var level = new[]
             {
@@ -56,29 +56,36 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
                             map.SetSolid(x, y, TileType.Brick);
                             break;
 
-                        case 'C': //coin
-                            var widthC = 20;
-                            var heightC = 20;
-                            coins.Add(new CoinEntity(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + +(tileSize - heightC)), widthC, heightC));
-                            break;
-
                         case 'P':
                             var widthP = 20;
                             var heightP = 30;
-                            playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
+                            //playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
+                            playerStart = entityFactory.CreatePlayer(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP);           
+                            break;
+
+                        case 'C': //coin
+                            var widthC = 20;
+                            var heightC = 20;
+                            //coins.Add(new CoinEntity();
+                            var coin = entityFactory.CreateCoin(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + (tileSize - heightC)), widthC, heightC);
+                            coins.Add(coin);
                             break;
 
                         case 'E':
                             var widthE = 20;
                             var heightE = 20;
-                            enemies.Add(new EnemyEntity(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE));
+                            //enemies.Add(new EnemyEntity(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE));
+                            var enemy = entityFactory.CreateEnemy(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE);
+                            enemies.Add(enemy);
                             break;
 
                         case 'F':
                             var widthF = 32;
                             var heightF = 46;
-                            var behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
-                            enemies.Add(new FlyingEnemyEntity(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
+                            IBehavior behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
+                            //enemies.Add(new FlyingEnemyEntity(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
+                            var flyingEnemy = entityFactory.CreateFlyingEnemy(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF)), behavior, widthF, heightF);
+                            enemies.Add(flyingEnemy);
                             break;
 
                         case 'W':
