@@ -36,7 +36,8 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
 
             int tileSize = 32;
             var map = new TileMap(level[0].Length, level.Length, tileSize);
-            PlayerEntity playerStart = null;
+
+            Mario playerStart = null;
             var enemies = new List<Entity>();
             var coins = new List<Entity>();
             Rectangle goal = Rectangle.Empty;
@@ -60,14 +61,18 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
                             var widthP = 20;
                             var heightP = 30;
                             //playerStart = new PlayerEntity(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP); //new Vector2(x * tileSize, y * tileSize);
-                            playerStart = entityFactory.CreatePlayer(new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), widthP, heightP);           
+                            playerStart = entityFactory.CreatePlayer(
+                                new Vector2(x * tileSize + (tileSize - widthP), y * tileSize + (tileSize - heightP)), 
+                                widthP, heightP);           
                             break;
 
                         case 'C': //coin
                             var widthC = 20;
                             var heightC = 20;
                             //coins.Add(new CoinEntity();
-                            var coin = entityFactory.CreateCoin(new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + (tileSize - heightC)), widthC, heightC);
+                            var coin = entityFactory.CreateCoin(
+                                new Vector2(x * tileSize + (tileSize - widthC), y * tileSize + (tileSize - heightC)), 
+                                widthC, heightC);
                             coins.Add(coin);
                             break;
 
@@ -75,7 +80,11 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
                             var widthE = 20;
                             var heightE = 20;
                             //enemies.Add(new EnemyEntity(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE));
-                            var enemy = entityFactory.CreateEnemy(new Vector2(x * tileSize + (tileSize - widthE), y * tileSize + (tileSize - heightE)), widthE, heightE);
+                            var enemy = entityFactory.CreateEnemy(
+                                new Vector2(x * tileSize + (tileSize - widthE), 
+                                y * tileSize + (tileSize - heightE)), 
+                                widthE, heightE, 
+                                map);
                             enemies.Add(enemy);
                             break;
 
@@ -84,7 +93,11 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
                             var heightF = 46;
                             IBehavior behavior = new FlyingBehavior(x * tileSize, x * tileSize + 128, y * tileSize, y * tileSize + 128);
                             //enemies.Add(new FlyingEnemyEntity(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF) ), behavior, widthF, heightF));
-                            var flyingEnemy = entityFactory.CreateFlyingEnemy(new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF)), behavior, widthF, heightF);
+                            var flyingEnemy = entityFactory.CreateFlyingEnemy(
+                                new Vector2(x * tileSize + (tileSize - widthF), y * tileSize + (tileSize - widthF)), 
+                                behavior, 
+                                widthF, heightF, 
+                                map);
                             enemies.Add(flyingEnemy);
                             break;
 

@@ -23,7 +23,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
         private CollisionRulesSystem _rules;
         private PhysicsSystem _physics;
         private TileMap _map;
-        private PlayerEntity _player;
+        private Mario _player;
         private Rectangle _goal;
 
         private TextureProvider _textures;
@@ -89,12 +89,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
         {
             if(Input.IsKeyPressed(Keys.Escape)) {
                 return new SceneUpdateResult(GameCommand.GoToMenu, new GameResult() { Scores = _session.Scores });
-            }
-
-                foreach (var e in _entities) {
-                if (e is EnemyEntity enemy) {
-                    enemy.Sense(_map);
-                }
             }
 
             // 1. input / AI
@@ -197,12 +191,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             float cameraX = _camera.Position.X * parallax;
 
-            // старт всегда выравниваем по сетке
-            //float startX = MathF.Floor(cameraX / texture.Width) * texture.Width - texture.Width;
-            var startX = 0;
-
-            //for (float x = startX; x < cameraX + screenWidth + texture.Width; x += texture.Width) {
-            for (float x = startX; x < _map.Width; x += texture.Width) {
+            for (float x = 0; x < _map.Width; x += texture.Width) {
                 spriteBatch.Draw(texture, new Vector2(x - cameraX, y), Color.White);
             }
         }
@@ -235,7 +224,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         private void DrawEntities(SpriteBatch spriteBatch)
         {
-            //spriteBatch.DrawString(_font, "Score: 100", new Vector2(10, 10), Color.White);
             foreach (var entity in _entities) {
                 var texture = _textures.Get(entity);
                 entity.Draw(spriteBatch);
@@ -280,14 +268,9 @@ namespace MarioLikePlatformerEngine.Application.Scenes
                     coin.WasCollected = false;
                 }
 
-                if(e is EnemyEntity enemy && enemy.WasKilled) {
+                if (e is BaseEnemy be && be.WasKilled) {
                     _sounds.Get(SoundType.Kickkill).Play();
-                    enemy.WasKilled = false;
-                }
-
-                if (e is FlyingEnemyEntity flyingenemy && flyingenemy.WasKilled) {
-                    _sounds.Get(SoundType.Kickkill).Play();
-                    flyingenemy.WasKilled = false;
+                    be.WasKilled = false;
                 }
             }
         }   

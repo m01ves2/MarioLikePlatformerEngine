@@ -47,6 +47,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
         public Contacts Contacts { get; set; } = new Contacts();
 
         public int Facing = 1; // 1 = вправо, -1 = влево
+        protected bool _isSpriteFacingRight = true;
 
         protected Dictionary<AnimationType, Animation> _animations;
         protected Animation _currentAnimation;
@@ -116,6 +117,11 @@ namespace MarioLikePlatformerEngine.Core.Entities
         public virtual void Draw(SpriteBatch sb)
         {
             var effect = Facing == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            
+            if (!_isSpriteFacingRight) //если спрайт изначально нарисован наоборот, смотрит влево
+                effect = effect == SpriteEffects.None
+                    ? SpriteEffects.FlipHorizontally
+                    : SpriteEffects.None;
 
             var source = _currentAnimation.Frames[_frameIndex];
 

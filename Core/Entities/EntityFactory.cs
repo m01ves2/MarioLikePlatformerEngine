@@ -1,7 +1,7 @@
 ﻿using MarioLikePlatformerEngine.Core.Components.Behavior;
 using MarioLikePlatformerEngine.Resources;
+using MarioLikePlatformerEngine.World;
 using Microsoft.Xna.Framework;
-using System.Security.Principal;
 
 namespace MarioLikePlatformerEngine.Core.Entities
 {
@@ -14,23 +14,23 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _textures = textures;
         }
 
-        public PlayerEntity CreatePlayer(Vector2 position, int width, int height)
+        public Mario CreatePlayer(Vector2 position, int width, int height)
         {
-            var player = new PlayerEntity(position, width, height);
+            var player = new Mario(position, width, height);
             player.SetAnimations(_textures.Get(EntityType.Mario));
             return player;
         }
 
-        public EnemyEntity CreateEnemy(Vector2 position, int width, int height)
+        public Goomba CreateEnemy(Vector2 position, int width, int height, TileMap map)
         {
-            var enemy = new EnemyEntity(position, width, height);
+            var enemy = new Goomba(position, width, height, map);
             enemy.SetAnimations(_textures.Get(EntityType.Goomba));
             return enemy;
         }
 
-        public FlyingEnemyEntity CreateFlyingEnemy(Vector2 position, IBehavior behavior, int width, int height)
+        public Paratroopa CreateFlyingEnemy(Vector2 position, IBehavior behavior, int width, int height, TileMap map)
         {
-            var enemy = new FlyingEnemyEntity(position, behavior, width, height);
+            var enemy = new Paratroopa(position, behavior, width, height, map);
             enemy.SetAnimations(_textures.Get(EntityType.Paratroopa));
             return enemy;
         }

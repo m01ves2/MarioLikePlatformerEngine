@@ -8,7 +8,7 @@ namespace MarioLikePlatformerEngine.Application.LevelBuilders
     public class LevelData
     {
         public TileMap Map;
-        public PlayerEntity PlayerStart;
+        public Mario PlayerStart;
         public List<Entity> Enemies = new();
         public List<Entity> Coins = new();
         public Rectangle Goal;

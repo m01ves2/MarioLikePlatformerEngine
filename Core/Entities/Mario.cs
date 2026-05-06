@@ -4,15 +4,11 @@ using MarioLikePlatformerEngine.Core.Entities.Config;
 using MarioLikePlatformerEngine.Inputs;
 using MarioLikePlatformerEngine.Resources;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace MarioLikePlatformerEngine.Core.Entities
 {
-    public class PlayerEntity : Entity
+    public class Mario : Entity
     {
         private MovementIntent _intent;
 
@@ -26,24 +22,24 @@ namespace MarioLikePlatformerEngine.Core.Entities
         public bool IsDead { get; private set; } = false;
         public bool JustJumped { get; private set; } = false;
 
-        public PlayerEntity(Vector2 position, int width, int height)
+        public Mario(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player, EntityType.Mario)
         {
             _config = new PlayerEntityConfig();
 
             _movement = new PhysicsMovement(
-                _config.MoveAcceleration,
-                _config.MaxSpeed,
-                _config.Friction,
-                _config.AirControl
+                moveAcceleration: _config.MoveAcceleration,
+                maxSpeed : _config.MaxSpeed,
+                friction : _config.Friction,
+                airControl : _config.AirControl
             );
 
             _vertical = new VerticalMovement(
-                _config.Gravity,
-                _config.JumpSpeed,
-                _config.JumpCutMultiplier,
-                _config.JumpBufferTime,
-                _config.CoyoteTime
+                gravity : _config.Gravity,
+                jumpSpeed : _config.JumpSpeed,
+                jumpCutMultiplier : _config.JumpCutMultiplier,
+                jumpBufferTime : _config.JumpBufferTime,
+                coyoteTime : _config.CoyoteTime
             );
         }
 
