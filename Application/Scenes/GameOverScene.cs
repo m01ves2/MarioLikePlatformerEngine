@@ -27,7 +27,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
         public override SceneUpdateResult Update(float dt)
         {
             if (Input.IsAnyKeyDown()) {
-                return new SceneUpdateResult(GameCommand.GoToMenu, _result);
+                return new SceneUpdateResult(GameCommand.GoToMenu, new GameResult());
             }
 
             return SceneUpdateResult.None;
@@ -40,7 +40,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             spriteBatch.Begin();
             DrawCentered(spriteBatch, $"G A M E  O V E R!", y, Color.White);
-            DrawCentered(spriteBatch, $"Scores: {_result.Score}", y + 50, Color.White);
+            DrawCentered(spriteBatch, $"Scores: {_result.Scores}", y + 50, Color.White);
             DrawCentered(spriteBatch, $"Press any key to continue", y + 100, Color.Gray);
             spriteBatch.End();
         }

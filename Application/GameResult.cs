@@ -2,7 +2,8 @@
 {
     public class GameResult
     {
-        public int Score;
-        public int Lives;
+        public int Scores = 0;
+        public int Lives = 3;
+        public int LevelIndex = 1;
     }
 }

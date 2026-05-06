@@ -31,7 +31,9 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         private GameSettings _gameSettings;
 
-        public GameScene(TextureProvider textures, SoundsProvider sounds, GameSettings gameSettings)
+        private bool _deathHandled = false; //for respawn our dead playerEntity
+
+        public GameScene(TextureProvider textures, SoundsProvider sounds, GameSettings gameSettings, GameResult gameResult)
         {
             _rules = new CollisionRulesSystem();
             //_rules.AddRule(new PlayerGroundRule());
@@ -45,6 +47,11 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             _textures = textures;
             _sounds = sounds;
 
+            _session = new GameSession()
+            {
+                Scores = gameResult.Scores,
+                Lives = gameResult.Lives
+            };
         }
 
         public override void Initialize()
@@ -67,11 +74,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
                 AddEntity(coins[i]);
             }
 
-            _session = new GameSession() {
-                Scores = 0,
-                Lives = 3 
-            };
-
             StartMusic();
         }
 
@@ -85,7 +87,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
         public override SceneUpdateResult Update(float dt)
         {
             if(Input.IsKeyPressed(Keys.Escape)) {
-                return new SceneUpdateResult(GameCommand.GoToMenu, new GameResult() { Score = _session.Scores });
+                return new SceneUpdateResult(GameCommand.GoToMenu, new GameResult() { Scores = _session.Scores });
             }
 
                 foreach (var e in _entities) {
@@ -108,16 +110,40 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             UpdateCamera();
 
-            if (isGameOver()) {
-                return new SceneUpdateResult(GameCommand.ShowGameOver, new GameResult() { Score = _session.Scores });
+            var result = HandleGameFlow();
+            return result;
+        }
+
+        private SceneUpdateResult HandleGameFlow()
+        {
+            // смерть от падения
+            if (_player.Position.Y > _map.Height + 200)
+                _player.Kill();
+
+            // обработка смерти
+            if (_player.IsDead && !_deathHandled) {
+                _session.Lives--;
+                _deathHandled = true;
+
+                if (_session.Lives > 0)
+                    return new SceneUpdateResult(GameCommand.StartGame, new GameResult() { Lives = _session.Lives, Scores = _session.Scores});
+
+                return new SceneUpdateResult(GameCommand.ShowGameOver, new GameResult() { Scores = _session.Scores });
             }
 
-            if (iskWin()) {
-                return new SceneUpdateResult(GameCommand.ShowGameWin, new GameResult() { Score = _session.Scores });
-            }
-
+            // победа
+            if (IsWin())
+                return new SceneUpdateResult(GameCommand.ShowGameWin, new GameResult() { Scores = _session.Scores });
 
             return SceneUpdateResult.None;
+        }
+
+        private bool IsWin()
+        {
+            if (_player.Bounds.Intersects(_goal)) {
+                return true;
+            }
+            return false;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -281,29 +307,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             //System.Diagnostics.Debug.WriteLine(_player.Position);
             //System.Diagnostics.Debug.WriteLine(_entities.OfType<PlayerEntity>().First().Position);
 
-        }
-
-        private bool isGameOver()
-        {
-            if (_player.Position.Y > _map.Height + 200) {
-                _player.Kill();
-            }
-
-            if (_player.IsDead)
-                _session.Lives--;
-
-            if(_session.Lives <= 0) {
-                return true;
-            }
-            return false;
-        }
-
-        private bool iskWin()
-        {
-            if (_player.Bounds.Intersects(_goal)) {
-                return true;
-            }
-            return false;
         }
     }
 }

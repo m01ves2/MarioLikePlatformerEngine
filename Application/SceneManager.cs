@@ -37,7 +37,7 @@ namespace MarioLikePlatformerEngine.Application
             _sceneFactory = new Dictionary<GameCommand, Func<GameResult, Scene>>()
             {
                 { GameCommand.GoToMenu, (GameResult result) => new MenuScene(_textures, result) },
-                { GameCommand.StartGame, (GameResult result) => new GameScene(_textures, _sounds, _settings) },
+                { GameCommand.StartGame, (GameResult result) => new GameScene(_textures, _sounds, _settings, result) },
                 { GameCommand.ShowGameOver, (GameResult result) => new GameOverScene(result) },
                 { GameCommand.ShowGameWin, (GameResult result) => new GameWinScene(result) },
             };

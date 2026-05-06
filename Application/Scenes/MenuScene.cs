@@ -42,7 +42,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             if (_isConfirmed) {
                 switch (_selectedIndex) {
-                    case 0: return new SceneUpdateResult(GameCommand.StartGame, _result);
+                    case 0: return new SceneUpdateResult(GameCommand.StartGame, new GameResult());
                     case 1: return new SceneUpdateResult(GameCommand.Quit, _result);
                 }
             }
@@ -73,7 +73,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             DrawBackground(spriteBatch);
             DrawMenu(spriteBatch);
-            DrawScores(spriteBatch);
             spriteBatch.End();
         }
 
@@ -94,11 +93,6 @@ namespace MarioLikePlatformerEngine.Application.Scenes
                 DrawCentered(spriteBatch, menuItems[i], y + 100 + i * 50, color);
             }
     
-        }
-
-        public void DrawScores(SpriteBatch spriteBatch)
-        {
-            DrawCentered(spriteBatch, $"Last scores: {_result.Score}", _resources.ScreenHeight - 150, Color.Gray);
         }
     }
 }
