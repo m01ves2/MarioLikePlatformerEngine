@@ -11,7 +11,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
 {
     public class EnemyEntity : Entity
     {
-        private Texture2D _whitePixel;
+        //private Texture2D _whitePixel;
         private readonly IMovement _movement;
         private readonly EnemyEntityConfig _config;
         private readonly IBehavior _behavior;
@@ -35,10 +35,10 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _behavior = new PatrolBehavior();
         }
 
-        public override void Load(GameResources resources)
-        {
-            _whitePixel = resources.WhitePixel;
-        }
+        //public override void Load(GameResources resources)
+        //{
+        //    _whitePixel = resources.WhitePixel;
+        //}
 
         public override void Update(float dt)
         {

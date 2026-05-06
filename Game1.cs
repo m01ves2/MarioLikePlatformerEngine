@@ -63,7 +63,8 @@ public class Game1 : Game
         _textures = new TextureProvider(
             _assets.EntityTextures, 
             _assets.TileTextures, 
-            _assets.Backgrounds);
+            _assets.Backgrounds,
+            _assets.Animations);
 
         _sounds = new SoundsProvider(_assets.Sounds);
         

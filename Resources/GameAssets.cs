@@ -1,5 +1,6 @@
 ﻿using MarioLikePlatformerEngine.Core.Entities;
 using MarioLikePlatformerEngine.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +28,8 @@ namespace MarioLikePlatformerEngine.Resources
         public Dictionary<EntityType, Texture2D> EntityTextures;
         public Dictionary<TileType, Texture2D> TileTextures;
         public Dictionary<BackgroundType, Texture2D> Backgrounds;
+
+        public Dictionary<EntityType, Dictionary<AnimationType, Animation>> Animations;
 
         public Dictionary<SoundType, SoundEffect> Sounds;
 
@@ -64,6 +67,109 @@ namespace MarioLikePlatformerEngine.Resources
                 { BackgroundType.Goal, content.Load<Texture2D>("princess") },
                 { BackgroundType.Castle, content.Load<Texture2D>("castle") },
                 { BackgroundType.Menu, content.Load<Texture2D>("menu_background") },
+            };
+
+            Animations = new Dictionary<EntityType, Dictionary<AnimationType, Animation>>
+            {
+                { EntityType.Mario , new Dictionary<AnimationType, Animation>
+                    {
+                        { AnimationType.Idle, new Animation()
+                            {
+                                   Texture = content.Load<Texture2D>("sprite_sheet_mario"),
+                                    Frames = new[]
+                                    {
+                                        new Rectangle(1, 8, 14, 15),
+                                    },
+                                    FrameTime = 0.1f
+                            }
+                        },
+
+                        { AnimationType.Run, new Animation()
+                            {
+                                   Texture = content.Load<Texture2D>("sprite_sheet_mario"),
+                                    Frames = new[]
+                                    {
+                                        new Rectangle(21, 8, 14, 15),
+                                        new Rectangle(39, 8, 14, 15),
+                                        new Rectangle(57, 8, 14, 15),
+                                    },
+                                    FrameTime = 0.1f
+                            }
+                        },
+
+                        { AnimationType.Jump, new Animation()
+                            {
+                                   Texture = content.Load<Texture2D>("sprite_sheet_mario"),
+                                    Frames = new[]
+                                    {
+                                        new Rectangle(97, 8, 14, 15),
+                                    },
+                                    FrameTime = 0.2f
+                            }
+                        },
+                    }
+                },
+
+                //{ EntityType.Goomba, new Dictionary<AnimationType, Animation>
+                //    {
+                //        { AnimationType.Run, new Animation()
+                //            {
+                //                   Texture = content.Load<Texture2D>("sprite_sheet_enemies"),
+                //                    Frames = new[]
+                //                    {
+                //                        new Rectangle(0, 16, 15, 15),
+                //                        new Rectangle(18, 16, 15, 15),
+                //                    },
+                //                    FrameTime = 0.1f
+                //            }
+                //        },
+
+                //    { AnimationType.Dying, new Animation()
+                //            {
+                //                   Texture = content.Load<Texture2D>("sprite_sheet_enemies"),
+                //                    Frames = new[]
+                //                    {
+                //                        new Rectangle(36, 24, 15, 7),
+                //                    },
+                //                    FrameTime = 0.1f
+                //            }
+                //        },
+                //    }
+
+                //},
+
+                //{ EntityType.Paratroopa, new Dictionary<AnimationType, Animation>
+                //    {
+                //        { AnimationType.Run, new Animation()
+                //            {
+                //                   Texture = content.Load<Texture2D>("sprite_sheet_enemies"),
+                //                    Frames = new[]
+                //                    {
+                //                        new Rectangle(36, 112, 15, 23),
+                //                        new Rectangle(54, 112, 15, 23),
+                //                    },
+                //                    FrameTime = 0.1f
+                //            }
+                //        },
+                //    }
+
+                //},
+
+                //{ EntityType.Coin, new Dictionary<AnimationType, Animation>
+                //    {
+                //        { AnimationType.Idle, new Animation()
+                //            {
+                //                   Texture = content.Load<Texture2D>("SMB_Sprite_Coin"),
+                //                    Frames = new[]
+                //                    {
+                //                        new Rectangle(0, 0, 9, 13),
+                //                    },
+                //                    FrameTime = 0.1f
+                //            }
+                //        },
+                //    }
+
+                //}
             };
         }
     }

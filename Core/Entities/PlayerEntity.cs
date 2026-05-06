@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MarioLikePlatformerEngine.Core.Entities
 {
@@ -14,7 +16,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
     {
         private MovementIntent _intent;
 
-        private Texture2D _whitePixel;
+        //private Texture2D _whitePixel;
 
         private readonly IMovement _movement;
         private readonly VerticalMovement _vertical;
@@ -23,6 +25,13 @@ namespace MarioLikePlatformerEngine.Core.Entities
         private int _health = 1;
         public bool IsDead { get; private set; } = false;
         public bool JustJumped { get; private set; } = false;
+
+        private Dictionary<AnimationType, Animation> _animations;
+        private Animation _currentAnimation;
+        //private AnimationType _currentState;
+        private int _frameIndex;
+        private float _timer;
+
         public PlayerEntity(Vector2 position, int width, int height)
             : base(position, width, height, EntityTag.Player, EntityType.Mario)
         {
@@ -44,9 +53,22 @@ namespace MarioLikePlatformerEngine.Core.Entities
             );
         }
 
-        public override void Load(GameResources resources)
+        public void SetAnimations(Dictionary<AnimationType, Animation> animations)
         {
-            _whitePixel = resources.WhitePixel;
+            _animations = animations;
+            SetAnimation(AnimationType.Idle); // стартовое состояние
+        }
+
+        private void SetAnimation(AnimationType type)
+        {
+            var newAnimation = _animations[type];
+
+            if (_currentAnimation == newAnimation)
+                return;
+
+            _currentAnimation = newAnimation;
+            _frameIndex = 0;
+            _timer = 0;
         }
 
         public override void Update(float dt)
@@ -67,7 +89,30 @@ namespace MarioLikePlatformerEngine.Core.Entities
                 dt
             );
 
+            UpdateFrame(dt);
+
             base.Update( dt );
+        }
+
+        private void UpdateFrame(float dt)
+        {
+            if (Velocity.X != 0)
+                SetAnimation(AnimationType.Run);
+            else
+                SetAnimation(AnimationType.Idle);
+
+            if(Velocity.Y != 0)
+                SetAnimation(AnimationType.Jump);
+
+                _timer += dt;
+
+            if (_timer > _currentAnimation.FrameTime) {
+                _frameIndex++;
+                _timer = 0;
+
+                if (_frameIndex >= _currentAnimation.Frames.Length)
+                    _frameIndex = 0;
+            }
         }
 
         private void ReadInput()
@@ -82,6 +127,39 @@ namespace MarioLikePlatformerEngine.Core.Entities
 
             _intent.JumpPressed = Input.IsKeyPressed(Keys.Space);
             _intent.JumpReleased = Input.IsKeyReleased(Keys.Space);
+        }
+
+        public override void Draw(SpriteBatch sb, Texture2D texture)
+        {
+            var effect = Facing == -1  ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            if (_currentAnimation != null) {
+
+                var source = _currentAnimation.Frames[_frameIndex];
+
+                sb.Draw(
+                    _currentAnimation.Texture,
+                    new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
+                    source,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    effect,
+                    0f
+                );
+            }
+            else {
+                sb.Draw(
+                    texture,
+                    new Rectangle((int)Position.X, (int)Position.Y, Width, Height),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    effect,
+                    0f
+                );
+            }
         }
 
         public override void TakeDamage()

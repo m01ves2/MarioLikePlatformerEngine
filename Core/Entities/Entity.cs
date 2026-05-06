@@ -83,9 +83,9 @@ namespace MarioLikePlatformerEngine.Core.Entities
             );
         }
 
-        public virtual void Load(GameResources resources) 
-        {
-        }
+        //public virtual void Load(GameResources resources) 
+        //{
+        //}
 
         public virtual void TakeDamage()
         {

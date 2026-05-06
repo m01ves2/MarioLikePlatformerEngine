@@ -28,7 +28,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
         public void AddEntity(Entity entity)
         {
-            entity.Load(_resources);
+            //entity.Load(_resources);
             _entities.Add(entity);
         }
 

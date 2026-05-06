@@ -52,6 +52,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             LevelData data = LevelBuilder.CreateLevel();
             _map = data.Map;
             _player = data.PlayerStart;
+            _player.SetAnimations(_textures.Get(EntityType.Mario));
             AddEntity(_player);
 
             var entities = data.Enemies;
@@ -131,7 +132,7 @@ namespace MarioLikePlatformerEngine.Application.Scenes
 
             spriteBatch.DrawString(
                 _resources.Font,
-                $"Score: {_session.Scores}",
+                $"Score: {_session.Scores}, Lives: {_session.Lives}",
                 new Vector2(50, 20),
                 Color.White
             );

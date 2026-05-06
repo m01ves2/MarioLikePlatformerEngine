@@ -9,7 +9,7 @@ namespace MarioLikePlatformerEngine.Core.Entities
 {
     public class FlyingEnemyEntity : Entity
     {
-        private Texture2D _whitePixel;
+        //private Texture2D _whitePixel;
         private readonly IMovement _movement;
         private readonly IBehavior _behavior;
         private TileMap _map;
@@ -23,10 +23,10 @@ namespace MarioLikePlatformerEngine.Core.Entities
             _behavior = flyingBehavior;
         }
 
-        public override void Load(GameResources resources)
-        {
-            _whitePixel = resources.WhitePixel;
-        }
+        //public override void Load(GameResources resources)
+        //{
+        //    _whitePixel = resources.WhitePixel;
+        //}
 
         public override void Update(float dt)
         {

@@ -126,6 +126,12 @@
     <None Update="Content\qblock.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\sprite_sheet_enemies.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\sprite_sheet_mario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\stone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
