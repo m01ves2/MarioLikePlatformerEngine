@@ -22,7 +22,7 @@ namespace MarioLikePlatformerEngine.Resources
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
             WhitePixel = whitePixel;
-            Font = Content.Load<SpriteFont>("font");
+            Font = Content.Load<SpriteFont>("File");
             GameMusic = Content.Load<Song>("background_music");
             GameOverMusic = Content.Load<Song>("gameover_music");
             GameWinMusic = Content.Load<Song>("gamewin_music");
