@@ -221,11 +221,9 @@ namespace MarioLikePlatformerEngine.Application.Scenes
             );
         }
 
-
         private void DrawEntities(SpriteBatch spriteBatch)
         {
             foreach (var entity in _entities) {
-                var texture = _textures.Get(entity);
                 entity.Draw(spriteBatch);
             }
         }

@@ -8,8 +8,8 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
         private float _jumpSpeed;
         private float _jumpCutMultiplier;
 
-        private float _jumpBufferTime;
-        private float _coyoteTime;
+        private float _jumpBufferTime; //Запомненное нажатие Space
+        private float _coyoteTime; //Право на прыжок
 
         private float _jumpBufferCounter;
         private float _coyoteCounter;
@@ -48,7 +48,7 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             if (_jumpBufferCounter > 0 && _coyoteCounter > 0) {
                 e.Velocity.Y = -_jumpSpeed;
                 _jumpBufferCounter = 0;
-
+                _coyoteCounter = 0;
                 jumped = true;
             }
 
@@ -65,17 +65,5 @@ namespace MarioLikePlatformerEngine.Core.Components.Movement
             return jumped;
         }
 
-        public void UpdateTimers(bool jumpPressed, bool isGrounded, float dt)
-        {
-            if (jumpPressed)
-                _jumpBufferCounter = _jumpBufferTime;
-
-            _jumpBufferCounter -= dt;
-
-            if (isGrounded)
-                _coyoteCounter = _coyoteTime;
-            else
-                _coyoteCounter -= dt;
-        }
     }
 }

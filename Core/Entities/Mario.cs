@@ -51,7 +51,6 @@ namespace MarioLikePlatformerEngine.Core.Entities
 
             //_movement.Apply(this, _intent.DirectionX, 0, Contacts.IsGrounded, dt);
             _movement.Apply(this, _intent, Contacts.IsGrounded, dt);
-            _vertical.UpdateTimers(_intent.JumpPressed, Contacts.IsGrounded, dt);
 
             JustJumped = _vertical.Apply(
                 this,

@@ -32,6 +32,8 @@ namespace MarioLikePlatformerEngine.Systems.Physics
 
                 ResolveEntities(ref state, entities, e, events); //Velocity correction only
 
+                // Recalculates ground contact using tiles only.
+                // Overrides IsGrounded previously set by entity collisions.
                 BuildContacts(ref state, e, map);
 
                 Commit(e, state);
@@ -40,6 +42,20 @@ namespace MarioLikePlatformerEngine.Systems.Physics
 
         private void ResolveTiles(ref PhysicsState state, Entity self, TileMap map, float dt)
         {
+            // здесь используется раздельная система разрешения коллизий по горизонтали и вертикали
+            // например - если Mario прыгнул и наскочил на вертикальную стену... 
+            // Упрощённая схема: горизонтальное движение блокируется стеной, а вертикальное продолжается под действием гравитации.
+            // это простейшая система разрешения, но есть и другие - существуют алгоритмы, которые решают такую задачу.
+            // Например, можно использовать предыдущую позицию, глубину проникновения или вычислять время первого контакта.
+            // Но они сложнее, чем наша система раздельного разрешения.
+
+            // И всё же наша система не идеальна
+            // Есть два ограничения:
+            // Первое — порядок осей имеет значение. Мы всегда обрабатываем X, затем Y.В некоторых ситуациях на углах платформ это может давать результат, отличный от обработки Y, затем X.
+            // Второе — возможен tunneling(проскок сквозь препятствие).
+            // Например, при достаточно большой скорости объект за один кадр может переместиться целиком за тонкую стену. Наш алгоритм проверяет пересечение в конечной позиции, а не весь пройденный путь.
+            // Для небольшого платформера с умеренными скоростями это допустимое упрощение.
+
             // X отдельно
             state.Position.X += state.Velocity.X * dt;
             ResolveTileX(ref state, self, map);
@@ -184,8 +200,8 @@ namespace MarioLikePlatformerEngine.Systems.Physics
             int right = (int)((state.Position.X + self.Width - 1) / map.TileSize);
             int bottom = (int)((state.Position.Y + self.Height) / map.TileSize);
 
-            state.Contacts.IsGrounded =
-                map.IsSolid(left, bottom) || map.IsSolid(right, bottom);
+            // здесь возможен оператор |= , потому что ранее мы могли приземлиться на какой то entity, но еще не приземлиться на tile
+            state.Contacts.IsGrounded = map.IsSolid(left, bottom) || map.IsSolid(right, bottom);
         }
 
         private void Commit(Entity e, PhysicsState state)
